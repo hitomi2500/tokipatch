@@ -1,0 +1,2 @@
+<replace sector="21" offset="720" filename="" size="2" old="4c3a" new="843d" comment="Filesize of NAME_ENT.EXN is increased to 0x13D84">
+<replace sector="21" offset="726" filename="" size="2" old="3a4c" new="3d84" comment="Filesize of NAME_ENT.EXN is increased to 0x13D84">
