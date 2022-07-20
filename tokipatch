@@ -36,6 +36,7 @@
 <replace sector="48" offset="f8" filename="A.BIN" size="2" old="816a" new="2900" oldbin="）" newbin=") " comment="Replace sjis bracket with ascii analog">
 <replace sector="48" offset="16c" filename="A.BIN" size="2" old="8177" new="3c00" oldbin="『" newbin="< " comment="Replace sjis bracket with ascii analog">
 <replace sector="48" offset="170" filename="A.BIN" size="2" old="8178" new="3e00" oldbin="』" newbin="> " comment="Replace sjis bracket with ascii analog">
+<replace sector="84" offset="4a8" filename="A.BIN" size="2" old="8177" new="3c00" oldbin="『" newbin="< " comment="Replace sjis bracket with ascii analog">
 <replace sector="84" offset="4ac" filename="A.BIN" size="2" old="8169" new="2800" oldbin="（" newbin="( " comment="Replace sjis bracket with ascii analog">
 <replace sector="84" offset="4b0" filename="A.BIN" size="2" old="8175" new="5b00" oldbin="「" newbin="[ " comment="Replace sjis bracket with ascii analog">
 <replace sector="84" offset="51f" filename="A.BIN" size="1" old="50" new="05" func="shiftjis_process_substring" oldasm="cmp/eq 0x50,r0" newasm="cmp/eq 0x5,r0" comment="Using char 0x05 for player name token instead of 0x50">
