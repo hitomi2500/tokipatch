@@ -74,6 +74,59 @@
 <replace sector="67" offset="50" filename="A.BIN" size="38" old="88ea8f548ad48bad90a795e28f4b82f02082b582c882af82ea82ce82c882e782c882a2816a00" new="49026e65656402746f02676f02746f026372616d027363686f6f6c026e657874027765656b29" oldbin="一週間強制補習を しなければならない） " newbin="Ineedtogotocramschoolnextweek)" comment="Main game window">
 <replace sector="67" offset="78" filename="A.BIN" size="23" old="95618b4382c5906791cc82aa93ae82a982c882a2816a00" new="49276d027369636b02616e640263616e2774026d6f7665" oldbin="病気で身体が動かない） " newbin="I'msickandcan'tmove" comment="Main game window">
 <replace sector="67" offset="90" filename="A.BIN" size="27" old="96be93fa82a982e789bd82f082b582e682a482a982c88148816a00" new="576861740273686f756c64026902646f0274686973027765656b3f" oldbin="明日から何をしようかな？） " newbin="Whatshouldidothisweek?" comment="Main game window">
+<replace sector="68" offset="180" filename="A.BIN" size="32" old="838d815b836882b782e9837483408343838b82f0914982f182c589ba82b382a2" new="53656c656374027468650266696c6502746f026c6f61642e0000000000000000" oldbin="ロードするファイルを選んで下さい" newbin="Selectthefiletoload.        " comment="Save screen">
+<replace sector="68" offset="218" filename="A.BIN" size="8" old="90dd92e88f4997b9" new="4578697400000000" oldbin="設定終了" newbin="Exit    " comment="Settings menu">
+<replace sector="68" offset="224" filename="A.BIN" size="10" old="837d8358835283628367" new="4d6173636f7400000000" oldbin="マスコット" newbin="Mascot    " comment="Settings menu">
+<replace sector="68" offset="230" filename="A.BIN" size="10" old="89b990ba8382815b8368" new="566f696365026d6f6465" oldbin="音声モード" newbin="Voicemode" comment="Settings menu">
+<replace sector="68" offset="23c" filename="A.BIN" size="12" old="834a815b835c838b91ac9378" new="437572736f72027370656564" oldbin="カーソル速度" newbin="Cursorspeed" comment="Settings menu">
+<replace sector="68" offset="24c" filename="A.BIN" size="10" old="83708362836890dd92e8" new="50616402736574757000" oldbin="パッド設定" newbin="Padsetup " comment="Settings menu">
+<replace sector="68" offset="258" filename="A.BIN" size="11" old="837d8345835890dd92e800" new="4d6f757365027365747570" oldbin="マウス設定 " newbin="Mousesetup" comment="Settings menu">
+<replace sector="68" offset="264" filename="A.BIN" size="14" old="8341834383528393947a92750000" new="49636f6e02706c6163656d656e74" oldbin="アイコン配置  " newbin="Iconplacement" comment="Settings menu">
+<replace sector="68" offset="274" filename="A.BIN" size="12" old="95b68e9a955c8ea691ac9378" new="546578740273706565640000" oldbin="文字表示速度" newbin="Textspeed  " comment="Settings menu">
+<replace sector="68" offset="2f4" filename="A.BIN" size="16" old="835683588365838090dd92e889e696ca" new="53797374656d0273657474696e677300" oldbin="システム設定画面" newbin="Systemsettings " comment="Settings menu">
+<replace sector="68" offset="308" filename="A.BIN" size="5" old="8356835883" new="4368616e67" oldbin="シス・ newbin="Chang" comment="Settings menu">
+<replace sector="68" offset="30e" filename="A.BIN" size="18" old="838090dd92e882f095cf8d5882b582dc82b7" new="0273797374656d0273657474696e67730000" oldbin="ム設定を変更します" newbin="systemsettings  " comment="Settings menu">
+<replace sector="68" offset="618" filename="A.BIN" size="10" old="95b68e9a91ac93780000" new="54657874027370656564" oldbin="文字速度  " newbin="Textspeed" comment="Settings menu">
+<replace sector="68" offset="624" filename="A.BIN" size="4" old="927882a2" new="534c4f57" oldbin="遅い" newbin="SLOW" comment="Settings menu">
+<replace sector="68" offset="62c" filename="A.BIN" size="6" old="958192ca0000" new="4e4f524d414c" oldbin="普通  " newbin="NORMAL" comment="Settings menu">
+<replace sector="68" offset="634" filename="A.BIN" size="4" old="91ac82a2" new="46415354" oldbin="速い" newbin="FAST" comment="Settings menu">
+<replace sector="68" offset="79c" filename="A.BIN" size="30" old="95b68e9a955c8ea682cc83588373815b836882f0927882ad82b582dc82b7" new="446973706c617973027465787402617402736c6f7765720273706565642e" oldbin="文字表示のスピードを遅くします" newbin="Displaystextatslowerspeed." comment="Settings menu">
+<replace sector="68" offset="7bc" filename="A.BIN" size="32" old="95b68e9a955c8ea682cc83588373815b836882f0958192ca82c982b582dc82b7" new="446973706c6179730274657874026174026e6f726d616c0273706565642e0000" oldbin="文字表示のスピードを普通にします" newbin="Displaystextatnormalspeed.  " comment="Settings menu">
+<replace sector="68" offset="7e0" filename="A.BIN" size="30" old="95b68e9a955c8ea682cc83588373815b836882f091ac82ad82b582dc82b7" new="446973706c617973027465787402617402666173740273706565642e0000" oldbin="文字表示のスピードを速くします" newbin="Displaystextatfastspeed.  " comment="Settings menu">
+<replace sector="69" offset="178" filename="A.BIN" size="12" old="82738278826f8264815d8260" new="545950452d41000000000000" oldbin="ＴＹＰＥ‐Ａ" newbin="TYPE-A      " comment="Settings menu">
+<replace sector="69" offset="188" filename="A.BIN" size="12" old="82738278826f8264815d8261" new="545950452d42000000000000" oldbin="ＴＹＰＥ‐Ｂ" newbin="TYPE-B      " comment="Settings menu">
+<replace sector="69" offset="2bc" filename="A.BIN" size="19" old="83418343835283938382815b836882f0000000" new="49636f6e02706c6163656d656e74026d6f6465" oldbin="アイコンモードを   " newbin="Iconplacementmode" comment="Settings menu">
+<replace sector="69" offset="2d0" filename="A.BIN" size="20" old="82738278826f8264815d826082c982b582dc82b7" new="77696c6c02626502545950452d412e0000000000" oldbin="ＴＹＰＥ‐Ａにします" newbin="willbeTYPE-A.     " comment="Settings menu">
+<replace sector="69" offset="2e8" filename="A.BIN" size="20" old="82738278826f8264815d826182c982b582dc82b7" new="77696c6c02626502545950452d422e0000000000" oldbin="ＴＹＰＥ‐Ｂにします" newbin="willbeTYPE-B.     " comment="Settings menu">
+<replace sector="69" offset="5b0" filename="A.BIN" size="11" old="826081408c8892e8000000" new="02410202436f6e6669726d" oldbin="Ａ　決定   " newbin="AConfirm" comment="Settings menu">
+<replace sector="69" offset="5bc" filename="A.BIN" size="14" old="82618140834c83838393835a838b" new="0242020243616e63656c00000000" oldbin="Ｂ　キャンセル" newbin="BCancel    " comment="Settings menu">
+<replace sector="69" offset="5cc" filename="A.BIN" size="30" old="826281408fea8f8a955c8ea68140814082c682a282a4947a927582c582b7" new="02430202417272616e6765026c6f636174696f6e02646973706c61790000" oldbin="Ｃ　場所表示　　という配置です" newbin="CArrangelocationdisplay  " comment="Settings menu">
+<replace sector="69" offset="5ec" filename="A.BIN" size="12" old="826081408fea8f8a955c8ea6" new="024102024c6f636174696f6e" oldbin="Ａ　場所表示" newbin="ALocation" comment="Settings menu">
+<replace sector="69" offset="5fc" filename="A.BIN" size="30" old="826281408c8892e8814081408140814082c682a282a4947a927582c582b7" new="02430202436f6e6669726d0202020202617272616e67656d656e74000000" oldbin="Ｃ　決定　　　　という配置です" newbin="CConfirmarrangement   " comment="Settings menu">
+<replace sector="69" offset="7a8" filename="A.BIN" size="8" old="836d815b837d838b" new="4e4f524d414c0000" oldbin="ノーマル" newbin="NORMAL  " comment="Settings menu">
+<replace sector="69" offset="7b4" filename="A.BIN" size="12" old="837d8345835883898343834e" new="4d4f5553452d4c494b450000" oldbin="マウスライク" newbin="MOUSE-LIKE  " comment="Settings menu">
+<replace sector="70" offset="e4" filename="A.BIN" size="12" old="83708362836890dd92e882f0" new="506164207365747570000000" oldbin="パッド設定を" newbin="Pad setup   " comment="Settings menu">
+<replace sector="70" offset="f4" filename="A.BIN" size="8" old="82c982b582dc82b7" new="0202000000000000" oldbin="にします" newbin="      " comment="Settings menu">
+<replace sector="70" offset="260" filename="A.BIN" size="26" old="92b4927882a2000092b491ac82a200008fad82b5927882a20000" new="5355504552534c4f570053555045524641535400534c4f574552" oldbin="超遅い  超速い  少し遅い  " newbin="SUPERSLOW SUPERFAST SLOWER" comment="Settings menu">
+<replace sector="70" offset="27c" filename="A.BIN" size="8" old="8fad82b591ac82a2" new="4641535445520000" oldbin="少し速い" newbin="FASTER  " comment="Settings menu">
+<replace sector="70" offset="46b" filename="A.BIN" size="1" old="68" new="6a" oldbin="h" newbin="j" comment="Settings menu">
+<replace sector="70" offset="46f" filename="A.BIN" size="1" old="70" new="74" oldbin="p" newbin="t" comment="Settings menu">
+<replace sector="70" offset="4b8" filename="A.BIN" size="23" old="834a815b835c838b82cc88da93ae91ac937882f0000000" new="54686502637572736f72026d6f76696e67027370656564" oldbin="カーソルの移動速度を   " newbin="Thecursormovingspeed" comment="Settings menu">
+<replace sector="70" offset="4d0" filename="A.BIN" size="12" old="92b4927882ad82b582dc82b7" new="537570657202736c6f772e00" oldbin="超遅くします" newbin="Superslow. " comment="Settings menu">
+<replace sector="70" offset="4e0" filename="A.BIN" size="10" old="927882ad82b582dc82b7" new="536c6f77027370656564" oldbin="遅くします" newbin="Slowspeed" comment="Settings menu">
+<replace sector="70" offset="4ec" filename="A.BIN" size="20" old="82bf82e582eb82c182c6927882ad82b582dc82b7" new="416c6d6f737402736c6f77027370656564000000" oldbin="ちょろっと遅くします" newbin="Almostslowspeed   " comment="Settings menu">
+<replace sector="70" offset="504" filename="A.BIN" size="15" old="8fad82b5927882ad82b582dc82b700" new="41026c6974746c6502736c6f776572" oldbin="少し遅くします " newbin="Alittleslower" comment="Settings menu">
+<replace sector="70" offset="514" filename="A.BIN" size="14" old="82d382c282a482c982b582dc82b7" new="4e6f726d616c0273706565642e00" oldbin="ふつうにします" newbin="Normalspeed. " comment="Settings menu">
+<replace sector="70" offset="524" filename="A.BIN" size="22" old="82bf82e582eb82c182c691ac82ad82b582dc82b70000" new="41026c6974746c65026661737465720273706565642e" oldbin="ちょろっと速くします  " newbin="Alittlefasterspeed." comment="Settings menu">
+<replace sector="70" offset="53c" filename="A.BIN" size="14" old="8fad82b591ac82ad82b582dc82b7" new="416c6d6f737402666173742e0000" oldbin="少し速くします" newbin="Almostfast.  " comment="Settings menu">
+<replace sector="70" offset="54c" filename="A.BIN" size="12" old="92b491ac82ad82b582dc82b7" new="537570657202666173742e00" oldbin="超速くします" newbin="Superfast. " comment="Settings menu">
+<replace sector="70" offset="55c" filename="A.BIN" size="11" old="91ac82ad82b582dc82b700" new="466173740273706565642e" oldbin="速くします " newbin="Fastspeed." comment="Settings menu">
+<replace sector="70" offset="7cc" filename="A.BIN" size="4" old="826e826d" new="4f4e0000" oldbin="ＯＮ" newbin="ON  " comment="Settings menu">
+<replace sector="70" offset="7d4" filename="A.BIN" size="6" old="826e82658265" new="4f4646000000" oldbin="ＯＦＦ" newbin="OFF   " comment="Settings menu">
+<replace sector="71" offset="fc" filename="A.BIN" size="12" old="89b990ba8382815b836882f0" new="566f696365026d6f64650000" oldbin="音声モードを" newbin="Voicemode  " comment="Settings menu">
+<replace sector="71" offset="10c" filename="A.BIN" size="24" old="8261837b835e839382c5834a8362836782c982b582dc82b7" new="4375742077697468024202627574746f6e00000000000000" oldbin="Ｂボタンでカットにします" newbin="Cut withBbutton       " comment="Settings menu">
+<replace sector="71" offset="128" filename="A.BIN" size="14" old="826e8265826582c982b582dc82b7" new="5475726e024f4646000000000000" oldbin="ＯＦＦにします" newbin="TurnOFF      " comment="Settings menu">
+<replace sector="71" offset="284" filename="A.BIN" size="11" old="955c8ea682b582c882a200" new="446f026e6f740273686f77" oldbin="表示しない " newbin="Donotshow" comment="Settings menu">
 <replace sector="84" offset="4a8" filename="A.BIN" size="2" old="8177" new="3c00" oldbin="『" newbin="< " comment="Replace sjis bracket with ascii analog">
 <replace sector="84" offset="4ac" filename="A.BIN" size="2" old="8169" new="2800" oldbin="（" newbin="( " comment="Replace sjis bracket with ascii analog">
 <replace sector="84" offset="4b0" filename="A.BIN" size="2" old="8175" new="5b00" oldbin="「" newbin="[ " comment="Replace sjis bracket with ascii analog">
