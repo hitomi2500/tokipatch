@@ -109,8 +109,8 @@
 <replace sector="70" offset="f4" filename="A.BIN" size="8" old="82c982b582dc82b7" new="0202000000000000" oldbin="‚É‚µ‚Ü‚·" newbin="      " comment="Settings menu">
 <replace sector="70" offset="260" filename="A.BIN" size="26" old="92b4927882a2000092b491ac82a200008fad82b5927882a20000" new="5355504552534c4f570053555045524641535400534c4f574552" oldbin="’´’x‚¢  ’´‘¬‚¢  ­‚µ’x‚¢  " newbin="SUPERSLOW SUPERFAST SLOWER" comment="Settings menu">
 <replace sector="70" offset="27c" filename="A.BIN" size="8" old="8fad82b591ac82a2" new="4641535445520000" oldbin="­‚µ‘¬‚¢" newbin="FASTER  " comment="Settings menu">
-<replace sector="70" offset="46b" filename="A.BIN" size="1" old="68" new="6a" oldbin="h" newbin="j" comment="Settings menu">
-<replace sector="70" offset="46f" filename="A.BIN" size="1" old="70" new="74" oldbin="p" newbin="t" comment="Settings menu">
+<replace sector="70" offset="46b" filename="A.BIN" size="1" old="68" new="6a" comment="Settings menu">
+<replace sector="70" offset="46f" filename="A.BIN" size="1" old="70" new="74" comment="Settings menu">
 <replace sector="70" offset="4b8" filename="A.BIN" size="23" old="834a815b835c838b82cc88da93ae91ac937882f0000000" new="54686502637572736f72026d6f76696e67027370656564" oldbin="ƒJ[ƒ\ƒ‹‚ÌˆÚ“®‘¬“x‚ð   " newbin="Thecursormovingspeed" comment="Settings menu">
 <replace sector="70" offset="4d0" filename="A.BIN" size="12" old="92b4927882ad82b582dc82b7" new="537570657202736c6f772e00" oldbin="’´’x‚­‚µ‚Ü‚·" newbin="Superslow. " comment="Settings menu">
 <replace sector="70" offset="4e0" filename="A.BIN" size="10" old="927882ad82b582dc82b7" new="536c6f77027370656564" oldbin="’x‚­‚µ‚Ü‚·" newbin="Slowspeed" comment="Settings menu">
@@ -213,6 +213,52 @@
 <replace sector="162" offset="448" filename="A.BIN" size="24" old="8363834383938372815b835e834383808341835e8362834e" new="5477696e6265650274696d650261747461636b0000000000" oldbin="ƒcƒCƒ“ƒr[ƒ^ƒCƒ€ƒAƒ^ƒbƒN" newbin="Twinbeetimeattack     " comment="Minigames">
 <replace sector="162" offset="464" filename="A.BIN" size="20" old="8fe3936397538e698140814081698d449759816a" new="59756a6902556564610228596f7368696f290000" oldbin="ã“c—SŽi@@iD—Yj" newbin="YujiUeda(Yoshio)  " comment="Minigames">
 <replace sector="162" offset="47c" filename="A.BIN" size="23" old="92c396ec936382c882e982dd816988c98f578940816a00" new="4e6172756d69025473756e6f64610228496a7575696e29" oldbin="’Ã–ì“c‚È‚é‚ÝiˆÉW‰@j " newbin="NarumiTsunoda(Ijuuin)" comment="Minigames">
+<replace sector="232" offset="2b4" filename="A.BIN" size="9" old="93a18de88e8d904400" new="5368696f726902462e" oldbin="“¡èŽD " newbin="ShioriF." comment="Names for phonebook and school graiding">
+<replace sector="232" offset="2c0" filename="A.BIN" size="66" old="94408c8e96a28f8f0000000095528f8f8c8b93de0000000095d08bcb8dca8e710000000093f896ec8db98af3000000008cc38eae82e482a982e8000090b490ec965d" new="4d696f024b2e00005975696e6102482e000000004179616b6f024b2e0000000053616b69024e2e0059756b617269024b2e0000004e6f7a6f6d69024b2e0000000000" oldbin="”@ŒŽ–¢    •RŒ‹“Þ    •Ð‹ËÊŽq    “ø–ì¹Šó    ŒÃŽ®‚ä‚©‚è  ´ì–]" newbin="MioK.  YuinaH.    AyakoK.    SakiN. YukariK.   NozomiK.     " comment="Names for phonebook and school graiding">
+<replace sector="232" offset="304" filename="A.BIN" size="7" old="8bbe96a3978500" new="4d697261024b2e" oldbin="‹¾–£—… " newbin="MiraK." comment="Names for phonebook and school graiding">
+<replace sector="232" offset="30c" filename="A.BIN" size="10" old="92a993fa93de975b8e71" new="59756b6f02412e000000" oldbin="’©“ú“Þ—[Žq" newbin="YukoA.   " comment="Names for phonebook and school graiding">
+<replace sector="232" offset="318" filename="A.BIN" size="9" old="94fc8ef78cb488a400" new="4d6567696d69024d2e" oldbin="”üŽ÷Œ´ˆ¤ " newbin="MegimiM." comment="Names for phonebook and school graiding">
+<replace sector="232" offset="324" filename="A.BIN" size="10" old="918189b38f97974494fc" new="59756d6902532e000000" oldbin="‘‰³——D”ü" newbin="YumiS.   " comment="Names for phonebook and school graiding">
+<replace sector="232" offset="330" filename="A.BIN" size="9" old="8ad997d18ca990b000" new="4d696861727502542e" oldbin="ŠÙ—ÑŒ©° " newbin="MiharuT." comment="Names for phonebook and school graiding">
+<replace sector="232" offset="33c" filename="A.BIN" size="10" old="88c98f578940838c8343" new="496a7575696e02526569" oldbin="ˆÉW‰@ƒŒƒC" newbin="IjuuinRei" comment="Names for phonebook and school graiding">
+<replace sector="232" offset="348" filename="A.BIN" size="10" old="918189b38f978d449759" new="596f7368696f02532e00" oldbin="‘‰³—D—Y" newbin="YoshioS. " comment="Names for phonebook and school graiding">
+<replace sector="232" offset="354" filename="A.BIN" size="10" old="8a4f88e490e194568fe5" new="536f746f690259752e00" oldbin="ŠOˆäá”Vå" newbin="SotoiYu. " comment="Names for phonebook and school graiding">
+<replace sector="232" offset="377" filename="A.BIN" size="1" old="cc" new="c8" comment="Names for phonebook and school graiding">
+<replace sector="232" offset="37b" filename="A.BIN" size="1" old="d8" new="d4" comment="Names for phonebook and school graiding">
+<replace sector="232" offset="37f" filename="A.BIN" size="1" old="e4" new="e0" comment="Names for phonebook and school graiding">
+<replace sector="232" offset="383" filename="A.BIN" size="1" old="f0" new="e8" comment="Names for phonebook and school graiding">
+<replace sector="232" offset="387" filename="A.BIN" size="1" old="fc" new="f4" comment="Names for phonebook and school graiding">
+<replace sector="232" offset="3ac" filename="A.BIN" size="6" old="93a18de80000" new="5368696f7269" oldbin="“¡è  " newbin="Shiori" comment="Names for dialogues">
+<replace sector="232" offset="3b4" filename="A.BIN" size="50" old="94408c8e0000000095528f8f0000000095d08bcb0000000093f896ec000000008cc38eae0000000090b490ec000000008bbe" new="4d696f005975696e610000004179616b6f00000053616b690000000059756b61726900004e6f7a6f6d6900004d6972610000" oldbin="”@ŒŽ    •R    •Ð‹Ë    “ø–ì    ŒÃŽ®    ´ì    ‹¾" newbin="Mio Yuina   Ayako   Saki    Yukari  Nozomi  Mira  " comment="Names for dialogues">
+<replace sector="232" offset="3e8" filename="A.BIN" size="6" old="92a993fa93de" new="59756b6f0000" oldbin="’©“ú“Þ" newbin="Yuko  " comment="Names for dialogues">
+<replace sector="232" offset="3f0" filename="A.BIN" size="6" old="94fc8ef78cb4" new="4d6567756d69" oldbin="”üŽ÷Œ´" newbin="Megumi" comment="Names for dialogues">
+<replace sector="232" offset="3f8" filename="A.BIN" size="6" old="918189b38f97" new="59756d690000" oldbin="‘‰³—" newbin="Yumi  " comment="Names for dialogues">
+<replace sector="232" offset="400" filename="A.BIN" size="6" old="8ad997d10000" new="4d6968617275" oldbin="ŠÙ—Ñ  " newbin="Miharu" comment="Names for dialogues">
+<replace sector="232" offset="408" filename="A.BIN" size="6" old="88c98f578940" new="496a7575696e" oldbin="ˆÉW‰@" newbin="Ijuuin" comment="Names for dialogues">
+<replace sector="232" offset="410" filename="A.BIN" size="6" old="8d4497590000" new="596f7368696f" oldbin="D—Y  " newbin="Yoshio" comment="Names for dialogues">
+<replace sector="232" offset="418" filename="A.BIN" size="5" old="8a4f88e400" new="536f746f69" oldbin="ŠOˆä " newbin="Sotoi" comment="Names for dialogues">
+<replace sector="232" offset="420" filename="A.BIN" size="4" old="974494fc" new="59756d69" oldbin="—D”ü" newbin="Yumi" comment="Names for dialogues">
+<replace sector="232" offset="433" filename="A.BIN" size="1" old="bc" new="b8" comment="Names for dialogues">
+<replace sector="232" offset="437" filename="A.BIN" size="1" old="c4" new="c0" comment="Names for dialogues">
+<replace sector="232" offset="43b" filename="A.BIN" size="1" old="cc" new="c8" comment="Names for dialogues">
+<replace sector="232" offset="43f" filename="A.BIN" size="1" old="d4" new="d0" comment="Names for dialogues">
+<replace sector="232" offset="443" filename="A.BIN" size="1" old="dc" new="d8" comment="Names for dialogues">
+<replace sector="232" offset="447" filename="A.BIN" size="1" old="e4" new="e0" comment="Names for dialogues">
+<replace sector="232" offset="678" filename="A.BIN" size="37" old="95b68c7c0000000089898c800000000089c88a77000000009364945d0000000094fc8f7000" new="4c697465726174757265004472616d6100536369656e636500436f6d707574657200417274" oldbin="•¶Œ|    ‰‰Œ€    ‰ÈŠw    “d”]    ”üp " newbin="Literature Drama Science Computer Art" comment="Club names">
+<replace sector="232" offset="69e" filename="A.BIN" size="26" old="0000908191748a79000096ec8b850000000083548362834a815b" new="42726173730262616e64004261736562616c6c00536f63636572" oldbin="  ‘tŠy  –ì‹…    ƒTƒbƒJ[" newbin="Brassband Baseball Soccer" comment="Club names">
+<replace sector="232" offset="6b9" filename="A.BIN" size="15" old="0000008365836a835800009085896a" new="54656e6e6973005377696d6d696e67" oldbin="   ƒeƒjƒX  …‰j" newbin="Tennis Swimming" comment="Club names">
+<replace sector="232" offset="6c9" filename="A.BIN" size="10" old="000000836f8358835000" new="4261736b657462616c6c" oldbin="   ƒoƒXƒP " newbin="Basketball" comment="Club names">
+<replace sector="232" offset="6d4" filename="A.BIN" size="6" old="96b38f8a91ae" new="4e6f6e650000" oldbin="–³Š‘®" newbin="None  " comment="Club names">
+<replace sector="232" offset="6e3" filename="A.BIN" size="1" old="80" new="83" comment="Club names">
+<replace sector="232" offset="6e7" filename="A.BIN" size="1" old="88" new="89" comment="Club names">
+<replace sector="232" offset="6eb" filename="A.BIN" size="1" old="90" new="91" comment="Club names">
+<replace sector="232" offset="6ef" filename="A.BIN" size="1" old="98" new="9a" comment="Club names">
+<replace sector="232" offset="6f3" filename="A.BIN" size="1" old="a0" new="9e" comment="Club names">
+<replace sector="232" offset="6f7" filename="A.BIN" size="1" old="a8" new="a9" comment="Club names">
+<replace sector="232" offset="6fb" filename="A.BIN" size="1" old="b0" new="b2" comment="Club names">
+<replace sector="232" offset="6ff" filename="A.BIN" size="1" old="bc" new="b9" comment="Club names">
+<replace sector="232" offset="703" filename="A.BIN" size="1" old="c4" new="c0" comment="Club names">
+<replace sector="232" offset="707" filename="A.BIN" size="1" old="cc" new="c9" comment="Club names">
 <replace sector="242" offset="0" filename="SYS_TBL.BIN" size="18" old="000000000000000000000000000000000000" new="feeaaaaae82eaaaaaefeeaaaaae824b24924" comment="First 256 chars of font replaced by ASCII">
 <replace sector="242" offset="1b" filename="SYS_TBL.BIN" size="263" old="0000000008004000000000000000000000000000002005002000000000000000000000000000006002004000000000000000000000000000004004000000000000000000000c00c00000000000000000000000000000400400000000000400400000000000000000400400000000000c00400800000000e0110110020040040000040040000000000040040040040040000000040040000000200900400000000000000000000000000000400a004000000000000000000000000000000400800000000000000000000000000000000800400000000000000000000000000000001101100000000000000000000000000000000c0120000000000000000000000000000000ffe0" new="feeaaaaae82e8a68aefeeaaaaae82aaae8a2feeaaaaae82ea2e8aefeeaaaaae82ea2eaaefeeaaaaae82e8a2924feeaaaaae82eaaeaaefeeaaaaae82eaae8aefeeaaaaae824aaeaaafeeaaaaae82caaeaacfeeaaaaae82ea28a2efeeaaaaae82caaaaacfeeaaaaae82ea2ca2efeeaaaaae82ea2ca28fe4b2492482eaaaaaefe4b24924824b24924fe4b2492482e8aea2efe4b2492482e8a68aefe4b2492482aaae8a2fe4b2492482ea2e8aefe4b2492482ea2eaaefe4b2492482e8a2924fe4b2492482eaaeaaefe4b2492482eaae8aefe4b24924824aaeaaafe4b2492482caaeaacfe4b2492482ea28a2efe4b2492482caaaaacfe4b2492482ea2ca2efe4b2492482ea2ca280000" comment="First 256 chars of font replaced by ASCII">
 <replace sector="242" offset="12a" filename="SYS_TBL.BIN" size="4" old="00000000" new="02082082" comment="First 256 chars of font replaced by ASCII">
