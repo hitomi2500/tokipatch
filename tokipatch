@@ -127,6 +127,22 @@
 <replace sector="71" offset="10c" filename="A.BIN" size="24" old="8261837b835e839382c5834a8362836782c982b582dc82b7" new="4375742077697468024202627574746f6e00000000000000" oldbin="Ｂボタンでカットにします" newbin="Cut withBbutton       " comment="Settings menu">
 <replace sector="71" offset="128" filename="A.BIN" size="14" old="826e8265826582c982b582dc82b7" new="5475726e024f4646000000000000" oldbin="ＯＦＦにします" newbin="TurnOFF      " comment="Settings menu">
 <replace sector="71" offset="284" filename="A.BIN" size="11" old="955c8ea682b582c882a200" new="446f026e6f740273686f77" oldbin="表示しない " newbin="Donotshow" comment="Settings menu">
+<replace sector="71" offset="5e4" filename="A.BIN" size="14" old="959482c993fc959482b582bd8142" new="02636c75622049276d20696e2e00" oldbin="部に入部した。" newbin="club I'm in. " comment="Joining a club">
+<replace sector="71" offset="5f4" filename="A.BIN" size="7" old="959492b7000000" new="44697265637472" oldbin="部長   " newbin="Directr" comment="Joining a club">
+<replace sector="71" offset="5fc" filename="A.BIN" size="6" old="817596888c8e" new="5b5468650000" oldbin="「毎月" newbin="[The  " comment="Joining a club">
+<replace sector="71" offset="604" filename="A.BIN" size="10" old="91e6825293fa976a93fa" new="3372640253756e646179" oldbin="第３日曜日" newbin="3rdSunday" comment="Joining a club">
+<replace sector="71" offset="610" filename="A.BIN" size="4" old="82cd8141" new="6f660000" oldbin="は、" newbin="of  " comment="Joining a club">
+<replace sector="71" offset="618" filename="A.BIN" size="18" old="834e8389837582cc93fa82c882cc82c58141" new="6576657279026d6f6e746802697302610000" oldbin="クラブの日なので、" newbin="everymonthisa  " comment="Joining a club">
+<replace sector="71" offset="62c" filename="A.BIN" size="9" old="8b7882dc82c882a200" new="636c7562026461792c" oldbin="休まない " newbin="clubday," comment="Joining a club">
+<replace sector="71" offset="638" filename="A.BIN" size="10" old="82e682a482c981420000" new="646f6e277402736b6970" oldbin="ように。  " newbin="don'tskip" comment="Joining a club">
+<replace sector="72" offset="0" filename="A.BIN" size="4" old="8ea991ee" new="486f6d65" oldbin="自宅" newbin="Home" comment="Bomb alert">
+<replace sector="72" offset="8" filename="A.BIN" size="46" old="8dc58bdf8f9782cc8e7182cc8ad482c52095cf82c8895c82aa97ac82ea82c482a282e982e782b582a28163816a00" new="4974027365656d7302746861740277656972640272756d6f72730261726502666c6f77696e670261726f756e6429" oldbin="最近女の子の間で 変な噂が流れているらしい…） " newbin="Itseemsthatweirdrumorsareflowingaround)" comment="Bomb alert">
+<replace sector="72" offset="400" filename="A.BIN" size="7" old="90b38c8e000000" new="4e657759656172" oldbin="正月   " newbin="NewYear" comment="New Year mail">
+<replace sector="72" offset="408" filename="A.BIN" size="10" old="83738393837c815b8393" new="50696e672d706f6e6700" oldbin="ピンポーン" newbin="Ping-pong " comment="New Year mail">
+<replace sector="72" offset="4cc" filename="A.BIN" size="15" old="82f1814820924e82be82eb82a4816a" new="486d3f57686f27732074686572653f" oldbin="ん？ 誰だろう）" newbin="Hm?Who's there?" comment="New Year mail">
+<replace sector="72" offset="4dc" filename="A.BIN" size="7" old="81a7947a924200" new="4f682c6d61696c" oldbin="〒配達 " newbin="Oh,mail" comment="New Year mail">
+<replace sector="72" offset="4e4" filename="A.BIN" size="14" old="944e89ea8ff382c5815b82b78142" new="4974277320612063617264000000" oldbin="年賀状でーす。" newbin="It's a card   " comment="New Year mail">
+<replace sector="72" offset="664" filename="A.BIN" size="9" old="82e282c182bd814920" new="486f6f726179210202" oldbin="やった！ " newbin="Hooray!" comment="New Year mail">
 <replace sector="84" offset="4a8" filename="A.BIN" size="2" old="8177" new="3c00" oldbin="『" newbin="< " comment="Replace sjis bracket with ascii analog">
 <replace sector="84" offset="4ac" filename="A.BIN" size="2" old="8169" new="2800" oldbin="（" newbin="( " comment="Replace sjis bracket with ascii analog">
 <replace sector="84" offset="4b0" filename="A.BIN" size="2" old="8175" new="5b00" oldbin="「" newbin="[ " comment="Replace sjis bracket with ascii analog">
