@@ -292,6 +292,23 @@
 <replace sector="162" offset="448" filename="A.BIN" size="24" old="8363834383938372815b835e834383808341835e8362834e" new="5477696e6265650274696d650261747461636b0000000000" oldbin="ƒcƒCƒ“ƒr[ƒ^ƒCƒ€ƒAƒ^ƒbƒN" newbin="Twinbeetimeattack     " comment="Minigames">
 <replace sector="162" offset="464" filename="A.BIN" size="20" old="8fe3936397538e698140814081698d449759816a" new="59756a6902556564610228596f7368696f290000" oldbin="ã“c—SŽi@@iD—Yj" newbin="YujiUeda(Yoshio)  " comment="Minigames">
 <replace sector="162" offset="47c" filename="A.BIN" size="23" old="92c396ec936382c882e982dd816988c98f578940816a00" new="4e6172756d69025473756e6f64610228496a7575696e29" oldbin="’Ã–ì“c‚È‚é‚ÝiˆÉW‰@j " newbin="NarumiTsunoda(Ijuuin)" comment="Minigames">
+<replace sector="232" offset="58" filename="A.BIN" size="2" old="824f" new="3002" oldbin="‚O" newbin="0" comment="Save slot numbers">
+<replace sector="232" offset="5c" filename="A.BIN" size="2" old="8250" new="3102" oldbin="‚P" newbin="1" comment="Save slot numbers">
+<replace sector="232" offset="60" filename="A.BIN" size="2" old="8251" new="3202" oldbin="‚Q" newbin="2" comment="Save slot numbers">
+<replace sector="232" offset="64" filename="A.BIN" size="2" old="8252" new="3302" oldbin="‚R" newbin="3" comment="Save slot numbers">
+<replace sector="232" offset="68" filename="A.BIN" size="2" old="8253" new="3402" oldbin="‚S" newbin="4" comment="Save slot numbers">
+<replace sector="232" offset="6c" filename="A.BIN" size="2" old="8254" new="3502" oldbin="‚T" newbin="5" comment="Save slot numbers">
+<replace sector="232" offset="70" filename="A.BIN" size="2" old="8255" new="3602" oldbin="‚U" newbin="6" comment="Save slot numbers">
+<replace sector="232" offset="74" filename="A.BIN" size="2" old="8256" new="3702" oldbin="‚V" newbin="7" comment="Save slot numbers">
+<replace sector="232" offset="78" filename="A.BIN" size="2" old="8257" new="3802" oldbin="‚W" newbin="8" comment="Save slot numbers">
+<replace sector="232" offset="7c" filename="A.BIN" size="2" old="8258" new="3902" oldbin="‚X" newbin="9" comment="Save slot numbers">
+<replace sector="232" offset="80" filename="A.BIN" size="4" old="8250824f" new="31300202" oldbin="‚P‚O" newbin="10" comment="Save slot numbers">
+<replace sector="232" offset="88" filename="A.BIN" size="4" old="82508250" new="31310202" oldbin="‚P‚P" newbin="11" comment="Save slot numbers">
+<replace sector="232" offset="90" filename="A.BIN" size="4" old="82508251" new="31320202" oldbin="‚P‚Q" newbin="12" comment="Save slot numbers">
+<replace sector="232" offset="98" filename="A.BIN" size="4" old="82508252" new="31330202" oldbin="‚P‚R" newbin="13" comment="Save slot numbers">
+<replace sector="232" offset="a0" filename="A.BIN" size="4" old="82508253" new="31340202" oldbin="‚P‚S" newbin="14" comment="Save slot numbers">
+<replace sector="232" offset="a8" filename="A.BIN" size="4" old="82508254" new="31350202" oldbin="‚P‚T" newbin="15" comment="Save slot numbers">
+<replace sector="232" offset="b0" filename="A.BIN" size="4" old="82508255" new="31360202" oldbin="‚P‚U" newbin="16" comment="Save slot numbers">
 <replace sector="232" offset="2b4" filename="A.BIN" size="9" old="93a18de88e8d904400" new="5368696f726902462e" oldbin="“¡èŽD " newbin="ShioriF." comment="Names for phonebook and school graiding">
 <replace sector="232" offset="2c0" filename="A.BIN" size="66" old="94408c8e96a28f8f0000000095528f8f8c8b93de0000000095d08bcb8dca8e710000000093f896ec8db98af3000000008cc38eae82e482a982e8000090b490ec965d" new="4d696f024b2e00005975696e6102482e000000004179616b6f024b2e0000000053616b69024e2e0059756b617269024b2e0000004e6f7a6f6d69024b2e0000000000" oldbin="”@ŒŽ–¢    •RŒ‹“Þ    •Ð‹ËÊŽq    “ø–ì¹Šó    ŒÃŽ®‚ä‚©‚è  ´ì–]" newbin="MioK.  YuinaH.    AyakoK.    SakiN. YukariK.   NozomiK.     " comment="Names for phonebook and school graiding">
 <replace sector="232" offset="304" filename="A.BIN" size="7" old="8bbe96a3978500" new="4d697261024b2e" oldbin="‹¾–£—… " newbin="MiraK." comment="Names for phonebook and school graiding">
@@ -597,4 +614,4 @@
 <replace sector="13841" offset="4e4" filename="NAME_ENT.EXN" size="49" old="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" new="22490264756e6e6f0277686f0263616d650275700277697468200269742c026d616b6573026d6502656e76790269742e22" oldbin="                                                 " newbin=""Idunnowhocameupwith it,makesmeenvyit."" comment="Prologue script">
 <replace sector="13841" offset="518" filename="NAME_ENT.EXN" size="46" old="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" new="22546865026c6567656e642e2e2e0249027365652c2002696e0274686174026361736502666f72026d652e2e2e22" oldbin="                                              " newbin=""Thelegend...Isee, inthatcaseforme..."" comment="Prologue script">
 <replace sector="13841" offset="548" filename="NAME_ENT.EXN" size="57" old="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" new="22416e6402736f2c026d7902686f706566756c02616e642002616e78696f75730268696768027363686f6f6c206c69666502626567756e2e22" oldbin="                                                         " newbin=""Andso,myhopefuland anxioushighschool lifebegun."" comment="Prologue script">
-<comment total_bytes_changed="10051" old_patch_lines="598" new_patch_lines="0">
+<comment total_bytes_changed="10099" old_patch_lines="615" new_patch_lines="0">
