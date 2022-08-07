@@ -521,6 +521,74 @@
 <replace sector="162" offset="448" filename="A.BIN" size="24" old="8363834383938372815b835e834383808341835e8362834e" new="5477696e6265650274696d650261747461636b0000000000" oldbin="ツインビータイムアタック" newbin="Twinbeetimeattack     " comment="Minigames">
 <replace sector="162" offset="464" filename="A.BIN" size="20" old="8fe3936397538e698140814081698d449759816a" new="59756a6902556564610228596f7368696f290000" oldbin="上田祐司　　（好雄）" newbin="YujiUeda(Yoshio)  " comment="Minigames">
 <replace sector="162" offset="47c" filename="A.BIN" size="23" old="92c396ec936382c882e982dd816988c98f578940816a00" new="4e6172756d69025473756e6f64610228496a7575696e29" oldbin="津野田なるみ（伊集院） " newbin="NarumiTsunoda(Ijuuin)" comment="Minigames">
+<replace sector="162" offset="494" filename="A.BIN" size="22" old="8b6592728e7595e48140814081698ad997d1816a0000" new="5368696869024b696b75636869022854617465622e29" oldbin="菊池志穂　　（館林）  " newbin="ShihiKikuchi(Tateb.)" comment="Ending? cast">
+<replace sector="162" offset="4ac" filename="A.BIN" size="22" old="82e682b582ab82ad82e882f18169918189b38f97816a" new="596f7368696b696b7572696e022853616f746f6d6529" oldbin="よしきくりん（早乙女）" newbin="Yoshikikurin(Saotome)" comment="Ending? cast">
+<replace sector="162" offset="4c4" filename="A.BIN" size="22" old="8c498cb482dd82ab82b18140816994fc8ef78cb4816a" new="4d696b696b6f024b7572696861726102284d696b2e29" oldbin="栗原みきこ　（美樹原）" newbin="MikikoKurihara(Mik.)" comment="Ending? cast">
+<replace sector="162" offset="4dc" filename="A.BIN" size="22" old="9353e07b92cb97748e718140816992a993fa93de816a" new="596f6b6f0254657a756b61022841736168696e612900" oldbin="鉄炮塚葉子　（朝日奈）" newbin="YokoTezuka(Asahina) " comment="Ending? cast">
+<replace sector="162" offset="4f4" filename="A.BIN" size="19" old="8cdc8f5c9792814097ed814081698bbe816a00" new="49676172617368690252656902284b61672e29" oldbin="五十嵐　麗　（鏡） " newbin="IgarashiRei(Kag.)" comment="Ending? cast">
+<replace sector="162" offset="508" filename="A.BIN" size="19" old="8df996d888bb8e71816990b490ec816a000000" new="536173616b69024179616b6f02284b69792e29" oldbin="笹木綾子（清川）   " newbin="SasakiAyako(Kiy.)" comment="Ending? cast">
+<replace sector="162" offset="51c" filename="A.BIN" size="19" old="8d958de88dca8e7181698cc38eae816a000000" new="4b75726f73616b69024179616b6f02284b2e29" oldbin="黒崎彩子（古式）   " newbin="KurosakiAyako(K.)" comment="Ending? cast">
+<replace sector="162" offset="530" filename="A.BIN" size="19" old="909b8cb48fcb8e71816993f896ec816a000000" new="53756761776172610253686f6b6f02284e2e29" oldbin="菅原祥子（虹野）   " newbin="SugawaraShoko(N.)" comment="Ending? cast">
+<replace sector="162" offset="544" filename="A.BIN" size="19" old="90ec8cfb89eb91e3816995d08bcb816a000000" new="4b6177616775636869024d617361796f02282e" oldbin="川口雅代（片桐）   " newbin="KawaguchiMasayo(." comment="Ending? cast">
+<replace sector="162" offset="558" filename="A.BIN" size="19" old="9286814097468e71816995528f8f816a000000" new="4e616b6102546f6d6f6b6f022848696d6f6f29" oldbin="中　友子（紐緒）   " newbin="NakaTomoko(Himoo)" comment="Ending? cast">
+<replace sector="162" offset="56c" filename="A.BIN" size="9" old="8ad68daa96be8e7181" new="53656b696e6502416b" oldbin="関根明子・ newbin="SekineAk" comment="Ending? cast">
+<replace sector="162" offset="576" filename="A.BIN" size="9" old="94408c8e816a000000" new="6b6f02284b69732e29" oldbin="如月）   " newbin="ko(Kis.)" comment="Ending? cast">
+<replace sector="162" offset="580" filename="A.BIN" size="19" old="8be08c8e905e94fc816993a18de8816a000000" new="4b696e6765747375024d616d69022846752e29" oldbin="金月真美（藤崎）   " newbin="KingetsuMami(Fu.)" comment="Ending? cast">
+<replace sector="162" offset="594" filename="A.BIN" size="12" old="836f83628368834783938368" new="42616402656e64696e670000" oldbin="バッドエンド" newbin="Badending  " comment="Endings">
+<replace sector="162" offset="5a4" filename="A.BIN" size="12" old="88c98f5789408140838c8343" new="496a7575696e025265690000" oldbin="伊集院　レイ" newbin="IjuuinRei  " comment="Endings">
+<replace sector="162" offset="5b4" filename="A.BIN" size="15" old="8ad997d1814081408ca990b0000000" new="5461746562617961736869024d692e" oldbin="館林　　見晴   " newbin="TatebayashiMi." comment="Endings">
+<replace sector="162" offset="5c4" filename="A.BIN" size="12" old="918189b38f978140974494fc" new="53616f746f6d650259756d69" oldbin="早乙女　優美" newbin="SaotomeYumi" comment="Endings">
+<replace sector="162" offset="5d4" filename="A.BIN" size="11" old="94fc8ef78cb4814088a400" new="4d696b6968617261024169" oldbin="美樹原　愛 " newbin="MikiharaAi" comment="Endings">
+<replace sector="162" offset="5e0" filename="A.BIN" size="12" old="92a993fa93de8140975b8e71" new="41736168696e610259756b6f" oldbin="朝日奈　夕子" newbin="AsahinaYuko" comment="Endings">
+<replace sector="162" offset="5f0" filename="A.BIN" size="12" old="8bbe81408140814096a39785" new="4b6167616d69024d69726100" oldbin="鏡　　　魅羅" newbin="KagamiMira " comment="Endings">
+<replace sector="162" offset="600" filename="A.BIN" size="11" old="90b490ec8140965d000000" new="4b69796f6b617761024e2e" oldbin="清川　望   " newbin="KiyokawaN." comment="Endings">
+<replace sector="162" offset="60c" filename="A.BIN" size="14" old="8cc38eae814082e482a982e80000" new="4b6f7368696b690259756b617269" oldbin="古式　ゆかり  " newbin="KoshikiYukari" comment="Endings">
+<replace sector="162" offset="61c" filename="A.BIN" size="11" old="93f896ec81408db98af300" new="4e696a696e6f0253616b69" oldbin="虹野　沙希 " newbin="NijinoSaki" comment="Endings">
+<replace sector="162" offset="628" filename="A.BIN" size="11" old="95d08bcb81408dca8e7100" new="4b6174616769726902412e" oldbin="片桐　彩子 " newbin="KatagiriA." comment="Endings">
+<replace sector="162" offset="634" filename="A.BIN" size="11" old="95528f8f81408c8b93de00" new="48696d6f6f205975696e61" oldbin="紐緒　結奈 " newbin="Himoo Yuina" comment="Endings">
+<replace sector="162" offset="640" filename="A.BIN" size="11" old="94408c8e814096a28f8f00" new="4b69736172616769204d2e" oldbin="如月　未緒 " newbin="Kisaragi M." comment="Endings">
+<replace sector="162" offset="64c" filename="A.BIN" size="11" old="93a18de881408e8d904400" new="46756a6973616b6920532e" oldbin="藤崎　詩織 " newbin="Fujisaki S." comment="Endings">
+<replace sector="166" offset="46c" filename="A.BIN" size="9" old="826081408c8892e800" new="4102436f6e6669726d" oldbin="Ａ　決定 " newbin="AConfirm" comment="Settings menu">
+<replace sector="166" offset="478" filename="A.BIN" size="14" old="82618140834c83838393835a838b" new="420243616e63656c000000000000" oldbin="Ｂ　キャンセル" newbin="BCancel      " comment="Settings menu">
+<replace sector="166" offset="488" filename="A.BIN" size="30" old="826281408fea8f8a955c8ea68140814082c682a282a4947a927582c582b7" new="43024c6f636174696f6e02646973706c617920617272616e67656d656e74" oldbin="Ｃ　場所表示　　という配置です" newbin="CLocationdisplay arrangement" comment="Settings menu">
+<replace sector="166" offset="4a8" filename="A.BIN" size="14" old="826081408fea8f8a955c8ea60000" new="41024c6f632e02646973706c6179" oldbin="Ａ　場所表示  " newbin="ALoc.display" comment="Settings menu">
+<replace sector="166" offset="4b8" filename="A.BIN" size="30" old="826281408c8892e8814081408140814082c682a282a4947a927582c582b7" new="4302436f6e6669726d02617272616e67656d656e74000000000000000000" oldbin="Ｃ　決定　　　　という配置です" newbin="CConfirmarrangement         " comment="Settings menu">
+<replace sector="167" offset="1e0" filename="A.BIN" size="36" old="81408381836a8385815b914991f08e9e82c9814195fb8cfc834c815b82f0899f82b782c6" new="5768656e026d656e750269730273656c65637465642c027072657373696e670274686500" oldbin="　メニュー選択時に、方向キーを押すと" newbin="Whenmenuisselected,pressingthe " comment="Settings menu">
+<replace sector="167" offset="208" filename="A.BIN" size="38" old="8381836a8385815b834183438365838082cc8f8794d492ca82e882c9834a815b835c838b0000" new="6172726f77026b6579730277696c6c026d6f76650274686502637572736f7202746f02746865" oldbin="メニューアイテムの順番通りにカーソル  " newbin="arrowkeyswillmovethecursortothe" comment="Settings menu">
+<replace sector="167" offset="230" filename="A.BIN" size="12" old="82aa88da93ae82b582dc82b7" new="6d656e7502627574746f6e73" oldbin="が移動します" newbin="menubuttons" comment="Settings menu">
+<replace sector="167" offset="240" filename="A.BIN" size="34" old="8140834a815b835c838b82aa814195fb8cfc834c815b82cc8fe389ba8db6894582c9" new="54686502637572736f720277696c6c026d6f766502746f027468650264697265632d" oldbin="　カーソルが、方向キーの上下左右に" newbin="Thecursorwillmovetothedirec-" comment="Settings menu">
+<replace sector="167" offset="264" filename="A.BIN" size="18" old="94bd899e82b582c493ae82ab82dc82b78142" new="74696f6e026f6602746865026b6579732e00" oldbin="反応して動きます。" newbin="tionofthekeys. " comment="Settings menu">
+<replace sector="167" offset="278" filename="A.BIN" size="21" old="8169837d8345835882c693af939982c582b7816a00" new="286571756976616c656e7402746f026d6f75736529" oldbin="（マウスと同等です） " newbin="(equivalenttomouse)" comment="Settings menu">
+<replace sector="176" offset="1c4" filename="A.BIN" size="15" old="95b68c7c9594000000000000000000" new="4c69746572617475726502636c7562" oldbin="文芸部         " newbin="Literatureclub" comment="Club names">
+<replace sector="176" offset="1d8" filename="A.BIN" size="10" old="89898c80959400000000" new="4472616d6102636c7562" oldbin="演劇部    " newbin="Dramaclub" comment="Club names">
+<replace sector="176" offset="1ec" filename="A.BIN" size="12" old="89c88a779594000000000000" new="536369656e636502636c7562" oldbin="科学部      " newbin="Scienceclub" comment="Club names">
+<replace sector="176" offset="200" filename="A.BIN" size="13" old="9364945d959400000000000000" new="436f6d707574657202636c7562" oldbin="電脳部       " newbin="Computerclub" comment="Club names">
+<replace sector="176" offset="214" filename="A.BIN" size="8" old="94fc8f7095940000" new="41727402636c7562" oldbin="美術部  " newbin="Artclub" comment="Club names">
+<replace sector="176" offset="228" filename="A.BIN" size="15" old="908191748a79959400000000000000" new="42726173730262616e6402636c7562" oldbin="吹奏楽部       " newbin="Brassbandclub" comment="Club names">
+<replace sector="176" offset="23c" filename="A.BIN" size="13" old="96ec8b85959400000000000000" new="4261736562616c6c02636c7562" oldbin="野球部       " newbin="Baseballclub" comment="Club names">
+<replace sector="176" offset="250" filename="A.BIN" size="11" old="83548362834a815b959400" new="536f6363657202636c7562" oldbin="サッカー部 " newbin="Soccerclub" comment="Club names">
+<replace sector="176" offset="264" filename="A.BIN" size="1" old="83" new="54" oldbin="・ newbin="T" comment="Club names">
+<replace sector="176" offset="266" filename="A.BIN" size="9" old="836a83589594000000" new="6e6e697302636c7562" oldbin="ニス部   " newbin="nnisclub" comment="Club names">
+<replace sector="176" offset="278" filename="A.BIN" size="13" old="9085896a959400000000000000" new="5377696d6d696e6702636c7562" oldbin="水泳部       " newbin="Swimmingclub" comment="Club names">
+<replace sector="176" offset="28c" filename="A.BIN" size="15" old="836f83588350959400000000000000" new="4261736b657462616c6c02636c7562" oldbin="バスケ部       " newbin="Basketballclub" comment="Club names">
+<replace sector="176" offset="2a0" filename="A.BIN" size="6" old="96b38f8a91ae" new="4e6f6e650000" oldbin="無所属" newbin="None  " comment="Club names">
+<replace sector="181" offset="770" filename="A.BIN" size="7" old="907d8f918eba00" new="4c696272617279" oldbin="図書室 " newbin="Library" comment="Club locations">
+<replace sector="181" offset="778" filename="A.BIN" size="58" old="8bb38eba00000000928692eb000000008ea991ee914f000089898c80959400008ec08cb18eba00009364945d95948eba0000000094fc8f708eba" new="436c617373726f6f6d00436f75727479617264004e65617202686f6d65004472616d6102636c7562004c616200436f6d707574657202726f6f6d" oldbin="教室    中庭    自宅前  演劇部  実験室  電脳部室    美術室" newbin="Classroom Courtyard Nearhome Dramaclub Lab Computerroom" comment="Club locations">
+<replace sector="181" offset="7b3" filename="A.BIN" size="8" old="0089b98a798eba00" new="41727402726f6f6d" oldbin=" 音楽室 " newbin="Artroom" comment="Club locations">
+<replace sector="181" offset="7bc" filename="A.BIN" size="10" old="834f8389839383680000" new="4d7573696302726f6f6d" oldbin="グランド  " newbin="Musicroom" comment="Club locations">
+<replace sector="181" offset="7c7" filename="A.BIN" size="7" old="008376815b838b" new="47726f756e6400" oldbin=" プール" newbin="Ground " comment="Club locations">
+<replace sector="181" offset="7cf" filename="A.BIN" size="8" old="0091cc88e78ad900" new="506f6f6c0047796d" oldbin=" 体育館 " newbin="Pool Gym" comment="Club locations">
+<replace sector="181" offset="7d8" filename="A.BIN" size="4" old="984c89ba" new="48616c6c" oldbin="廊下" newbin="Hall" comment="Club locations">
+<replace sector="182" offset="19b" filename="A.BIN" size="1" old="80" new="82" comment="Club locations">
+<replace sector="182" offset="1a3" filename="A.BIN" size="1" old="88" new="8c" comment="Club locations">
+<replace sector="182" offset="1ab" filename="A.BIN" size="1" old="90" new="96" comment="Club locations">
+<replace sector="182" offset="1af" filename="A.BIN" size="1" old="98" new="a1" comment="Club locations">
+<replace sector="182" offset="1b7" filename="A.BIN" size="1" old="a0" new="a5" comment="Club locations">
+<replace sector="182" offset="1bb" filename="A.BIN" size="1" old="ac" new="b3" comment="Club locations">
+<replace sector="182" offset="287" filename="A.BIN" size="1" old="b4" new="bc" comment="Club locations">
+<replace sector="182" offset="28f" filename="A.BIN" size="1" old="bc" new="c7" comment="Club locations">
+<replace sector="182" offset="293" filename="A.BIN" size="1" old="c8" new="cf" comment="Club locations">
+<replace sector="182" offset="297" filename="A.BIN" size="1" old="d0" new="d4" comment="Club locations">
 <replace sector="232" offset="58" filename="A.BIN" size="2" old="824f" new="3002" oldbin="０" newbin="0" comment="Save slot numbers">
 <replace sector="232" offset="5c" filename="A.BIN" size="2" old="8250" new="3102" oldbin="１" newbin="1" comment="Save slot numbers">
 <replace sector="232" offset="60" filename="A.BIN" size="2" old="8251" new="3202" oldbin="２" newbin="2" comment="Save slot numbers">
