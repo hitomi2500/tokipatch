@@ -382,7 +382,7 @@
 <replace sector="138" offset="160" filename="A.BIN" size="5" old="82c9814120" new="536f2c2000" oldbin="に、 " newbin="So,  " comment="Date selection">
 <replace sector="138" offset="168" filename="A.BIN" size="13" old="82d6208d7382a982c882a28148" new="77696c6c02796f7502676f3f00" oldbin="へ 行かない？" newbin="willyougo? " comment="Date selection">
 <replace sector="138" offset="178" filename="A.BIN" size="10" old="82bb82ea82b682e18141" new="57656c6c027468656e2c" oldbin="それじゃ、" newbin="Wellthen," comment="Date selection">
-<replace sector="138" offset="184" filename="A.BIN" size="31" old="82cc914f82c52091d282bf8d8782ed82b982c682a282a482b182c682c58142" new="6c65742773026d6565740261740274686502656e7472616e63652e00000000" oldbin="の前で 待ち合わせということで。" newbin="let'smeetattheentrance.    " comment="Date selection">
+<replace sector="138" offset="184" filename="A.BIN" size="31" old="82cc914f82c52091d282bf8d8782ed82b982c682a282a482b182c682c58142" new="6c65742773026d6565742061740274686502656e7472616e63652e00000000" oldbin="の前で 待ち合わせということで。" newbin="let'smeet attheentrance.    " comment="Date selection">
 <replace sector="138" offset="1a4" filename="A.BIN" size="11" old="82e282c182bd815b814220" new="5965732120000000000000" oldbin="やったー。 " newbin="Yes!       " comment="Date selection">
 <replace sector="138" offset="1b0" filename="A.BIN" size="17" old="82aa81418a7982b582dd82be82ba814220" new="43616e277402776169742e200000000000" oldbin="が、楽しみだぜ。 " newbin="Can'twait.      " comment="Date selection">
 <replace sector="138" offset="1c4" filename="A.BIN" size="24" old="8cbe977482a482c282c182bf82e182c182bd82e68142816a" new="4902676f740274686502776f72642e290000000000000000" oldbin="言葉うつっちゃったよ。）" newbin="Igottheword.)        " comment="Date selection">
