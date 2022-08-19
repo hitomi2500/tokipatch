@@ -5,7 +5,6 @@
 #include <QPicture>
 #include <QPainter>
 
-int compressed,uncompressed;
 QList<QString> commands_rcv;
 QString pack_keys;
 QString unpack_keys;
@@ -218,22 +217,22 @@ void MainWindow::on_pushButton_3_clicked()
 }
 
 
-char * unpack_graphics(char *src,char *dst)
+void unpack_graphics(char *src,char *dst, int *compressed_size = NULL,  int *decompressed_size = NULL  )
 {
   uint backstream;
   uint current_bit;
+  uint current_byte;
   int bits;
   int iCopyAmount;
-  char *src_reg = src;
-  char *dst_reg = dst;
-  uint current_byte;
+  uint src_index = 0;
+  uint dst_index = 0;
 
 #define GET_NEXT_BIT { \
     bits--; \
     if (bits == 0) { \
-      current_byte = (uint)*src_reg; \
-      if ((uint)(src_reg-src) > 101) unpack_keys.append(QString("%1,").arg((uint)(src_reg-src))); \
-      src_reg++; \
+      current_byte = (uint)src[src_index]; \
+      if (src_index > 101) unpack_keys.append(QString("%1,").arg(src_index)); \
+      src_index++; \
       bits = 8; \
     } \
     current_bit = current_byte & 1; \
@@ -246,10 +245,10 @@ char * unpack_graphics(char *src,char *dst)
       while( true ) {
           GET_NEXT_BIT
           if (current_bit == 1) break;
-          *dst_reg = *src_reg;
-          commands_rcv.append(QString("none fill byte %1").arg((uint8_t)dst_reg[0],0,16));
-          src_reg++;
-          dst_reg++;
+          dst[dst_index] = src[src_index];
+          commands_rcv.append(QString("none fill byte %1").arg((uint8_t)dst[dst_index],0,16));
+          src_index++;
+          dst_index++;
         }
       GET_NEXT_BIT
       if (current_bit == 1) {
@@ -258,35 +257,37 @@ char * unpack_graphics(char *src,char *dst)
           iCopyAmount = 2 + current_bit*2;
           GET_NEXT_BIT
           iCopyAmount += current_bit; //2 + 2-bit value, range from 2 to 5
-          backstream = (int)*src_reg & 0xff; //8-bit backstream link
-          src_reg++;
+          backstream = (int)src[src_index] & 0xff; //8-bit backstream link
+          src_index++;
           if (backstream == 0) {
               backstream = 0x100;
           }
       }
       else {
           //big backstream multiple repeat opcode (10), link 12 bit in datastream, size 8 bit in datastream,
-          backstream = ((int)*src_reg & 0xffU) << 8 | ((int)src_reg[1] & 0xffU); //12-bit backstream link ( 4 LSB ignored)
+          backstream = ((int)src[src_index] & 0xffU) << 8 | ((int)src[src_index+1] & 0xffU); //12-bit backstream link ( 4 LSB ignored)
           if (backstream == 0) {
-              compressed = src_reg-src;
-              uncompressed = dst_reg-dst;
-              return src_reg+2;
+              if (compressed_size != NULL)
+                compressed_size[0] = src_index;
+              if (decompressed_size != NULL)
+                decompressed_size[0] = dst_index+2;
+              return;
           }
           backstream = backstream >> 4;
-          if ((src_reg[1] & 0xf) == 0) {
-              iCopyAmount = (unsigned char)src_reg[2] + 1;
-              src_reg++;
+          if ((src[src_index+1] & 0xf) == 0) {
+              iCopyAmount = (unsigned char)src[src_index+2] + 1;
+              src_index++;
           }
           else {
-              iCopyAmount = (src_reg[1] & 0xf) + 2;
+              iCopyAmount = (src[src_index+1] & 0xf) + 2;
           }
-          src_reg += 2;
+          src_index += 2;
       }
       //duplicating single bit from previous stream data
       commands_rcv.append(QString("copy %1 bytes from %2").arg(iCopyAmount).arg(backstream));
       while (iCopyAmount>0) {
-          *dst_reg = *(dst_reg-backstream);
-          dst_reg++;
+          dst[dst_index] = dst[dst_index-backstream];
+          dst_index++;
           iCopyAmount--;
           }
       } while( true );
@@ -296,6 +297,8 @@ char * unpack_graphics(char *src,char *dst)
 
 void MainWindow::on_pushButton_unpach_graph_clicked()
 {
+    int compressed,uncompressed;
+
     //QString fileName("NBN.BIN");// = QFileDialog::getOpenFileName(this,tr("Open graph file"), "", tr("Graph file (*.*)"));
     //QString fileName("SYS_TBL.BIN");// = QFileDialog::getOpenFileName(this,tr("Open graph file"), "", tr("Graph file (*.*)"));
     QString fileName("SYS_TBL_stats_packed.data");// = QFileDialog::getOpenFileName(this,tr("Open graph file"), "", tr("Graph file (*.*)"));
@@ -365,7 +368,7 @@ void MainWindow::on_pushButton_unpach_graph_clicked()
     //unpack_graphics(input-0x86000+0xA2548,output,0); //single tile ??
     //unpack_graphics(input-0x86000+0xA34E8,output,0); //tiled 4bpp, 16x16, some symbols
 
-    unpack_graphics(input,output); //
+    unpack_graphics(input,output,&compressed,&uncompressed); //
 
     ui->label_status->setText(QString("Uncompress OK, in size %1, out size %2").arg(compressed).arg(uncompressed));
 
@@ -452,6 +455,7 @@ void MainWindow::on_pushButton_unpach_graph_clicked()
 
 void MainWindow::on_pushButton_pack_clicked()
 {
+    int compressed,uncompressed;
     //trying to pack in compatible format
     //String fileName("SYS_TBL_stats_unpacked.data");
     QString fileName("4bpp.data");
@@ -493,14 +497,14 @@ void MainWindow::on_pushButton_pack_clicked()
     uint8_t buf8[32];
     uint16_t * buf16 = (uint16_t *)buf8;
     compr.append(QByteArray(1,0)); //first byte of command index
-    while (index < uncompressed)
+    while (index < ba.size())
     {
         //detecting how many repeats of the previous byte we have
         repeats = 1;
         bool end_of_repeat = false;
         while (false == end_of_repeat)
         {
-            if ( ( (index+repeats) < uncompressed) && (index > 0) )
+            if ( ( (index+repeats) < ba.size()) && (index > 0) )
             {
                 if (ba[index+repeats-1] == ba[index-1])
                     repeats++;
