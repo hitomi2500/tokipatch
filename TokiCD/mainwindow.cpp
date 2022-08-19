@@ -5,7 +5,8 @@
 #include <QPicture>
 #include <QPainter>
 
-QList<QString> commands_rcv;
+QList<QString> commands_pack;
+QList<QString> commands_unpack;
 QString pack_keys;
 QString unpack_keys;
 
@@ -246,7 +247,7 @@ void unpack_graphics(char *src,char *dst, int *compressed_size = NULL,  int *dec
           GET_NEXT_BIT
           if (current_bit == 1) break;
           dst[dst_index] = src[src_index];
-          commands_rcv.append(QString("none fill byte %1").arg((uint8_t)dst[dst_index],0,16));
+          commands_unpack.append(QString("none fill byte %1").arg((uint8_t)dst[dst_index],0,16));
           src_index++;
           dst_index++;
         }
@@ -284,7 +285,7 @@ void unpack_graphics(char *src,char *dst, int *compressed_size = NULL,  int *dec
           src_index += 2;
       }
       //duplicating single bit from previous stream data
-      commands_rcv.append(QString("copy %1 bytes from %2").arg(iCopyAmount).arg(backstream));
+      commands_unpack.append(QString("copy %1 bytes from %2").arg(iCopyAmount).arg(backstream));
       while (iCopyAmount>0) {
           dst[dst_index] = dst[dst_index-backstream];
           dst_index++;
@@ -316,6 +317,8 @@ void MainWindow::on_pushButton_unpach_graph_clicked()
         input[i] = ba[i];
     char * output = (char*)malloc(1005000);
     memset(output,0,1005000);
+
+    commands_unpack.clear();
 
     //from logo.bin
     //unpack_graphics(input+0x408,output,0);
@@ -461,7 +464,6 @@ void MainWindow::on_pushButton_pack_clicked()
     QString fileName("4bpp.data");
     QFile file_in(fileName);
     QByteArray ba;
-    QList<QString> commands;
     QList<int> commands_type;
     QList<int> commands_value;
     QList<int> commands_link;
@@ -475,6 +477,7 @@ void MainWindow::on_pushButton_pack_clicked()
 
     pack_keys.clear();
     unpack_keys.clear();
+    commands_pack.clear();
     uncompressed = ba.size();
     char * input = (char*)malloc(ba.size());
     for (int i=0;i<ba.size();i++)
@@ -497,10 +500,12 @@ void MainWindow::on_pushButton_pack_clicked()
     uint8_t buf8[32];
     uint16_t * buf16 = (uint16_t *)buf8;
     compr.append(QByteArray(1,0)); //first byte of command index
+    int repeats_max;
     while (index < ba.size())
     {
         //detecting how many repeats of the previous byte we have
         repeats = 1;
+        repeats_max = 1;
         bool end_of_repeat = false;
         while (false == end_of_repeat)
         {
@@ -523,13 +528,110 @@ void MainWindow::on_pushButton_pack_clicked()
             {
                 use_repeats = 2;//use big
                 if (repeats > 250) repeats = 250; //big is limited with 1-byte size
+                repeats_max = repeats;
             }
         }
         else if (repeats > 2)
         {
             if (backbuffer_small.contains(ba[index]))
+            {
                 use_repeats = 1;//use small
+                repeats_max = repeats;
+            }
         }
+
+        //detecting x2 repeats
+        repeats = 0;
+        end_of_repeat = false;
+        while (false == end_of_repeat)
+        {
+            if ( ( (index+repeats+1) < ba.size()) && (index+repeats-2 >= 0) )
+            {
+                if ( (ba[index+repeats-2] == ba[index+repeats]) && (ba[index+repeats-1] == ba[index+repeats+1]) )
+                    repeats++;
+                else
+                    end_of_repeat=true;
+            }
+            else
+                end_of_repeat=true;
+        }
+        repeats+=2;
+        //only big buffer for x2
+        if (repeats > 5)
+        {
+            if (backbuffer_big.contains(ba[index]))
+            {
+
+                if (repeats > 250) repeats = 250; //big is limited with 1-byte size
+                if (repeats > repeats_max)
+                {
+                    use_repeats = 3;//use big, x2
+                    repeats_max = repeats;
+                }
+            }
+        }
+
+        //detecting x3 repeats
+        repeats = 0;
+        end_of_repeat = false;
+        while (false == end_of_repeat)
+        {
+            if ( ( (index+repeats+2) < ba.size()) && (index+repeats-3 >= 0) )
+            {
+                if ( (ba[index+repeats-3] == ba[index+repeats]) && (ba[index+repeats-2] == ba[index+repeats+1]) && (ba[index+repeats] == ba[index+repeats+2]) )
+                    repeats++;
+                else
+                    end_of_repeat=true;
+            }
+            else
+                end_of_repeat=true;
+        }
+        repeats+=3;
+        //only big buffer for x3
+        if (repeats > 5)
+        {
+            if (backbuffer_big.contains(ba[index]))
+            {
+                if (repeats > 250) repeats = 250; //big is limited with 1-byte size
+                if (repeats > repeats_max)
+                {
+                    use_repeats = 4;//use big, x3
+                    repeats_max = repeats;
+                }
+            }
+        }
+
+        //detecting x4 repeats
+        repeats = 0;
+        end_of_repeat = false;
+        while (false == end_of_repeat)
+        {
+            if ( ( (index+repeats+3) < ba.size()) && (index+repeats-4 >= 0) )
+            {
+                if ( (ba[index+repeats-4] == ba[index+repeats]) && (ba[index+repeats-3] == ba[index+repeats+1]) && (ba[index+repeats-2] == ba[index+repeats+2]) && (ba[index+repeats-1] == ba[index+repeats+3]) )
+                    repeats++;
+                else
+                    end_of_repeat=true;
+            }
+            else
+                end_of_repeat=true;
+        }
+        repeats+=4;
+        //only big buffer for x4
+        if (repeats > 5)
+        {
+            if (backbuffer_big.contains(ba[index]))
+            {
+                if (repeats > 250) repeats = 250; //big is limited with 1-byte size
+                if (repeats > repeats_max)
+                {
+                    use_repeats = 5;//use big, x4
+                    repeats_max = repeats;
+                }
+            }
+        }
+
+        repeats = repeats_max;
 
         //checking if current search sample exists in backbuffer
         bMovingOn = false;
@@ -539,7 +641,7 @@ void MainWindow::on_pushButton_pack_clicked()
         {
             //use small buffer
             repeats--;
-            commands.append(QString("small copy %1 bytes from %2").arg(repeats).arg(1));
+            commands_pack.append(QString("small copy %1 bytes from %2").arg(repeats).arg(1));
             commands_type.append(1);
             commands_value.append(repeats);
             commands_link.append(1);
@@ -556,15 +658,15 @@ void MainWindow::on_pushButton_pack_clicked()
                 backbuffer_small = ba.mid(index-256,256);
         }
 
-        if ( (false==bMovingOn) && (use_repeats == 2) )
+        if ( (false==bMovingOn) && (use_repeats >= 2) && (use_repeats <= 5) )
         {
             //use big buffer
             //now writing to data stream, link first, amount second
             repeats --;
-            commands.append(QString("big copy %1 bytes from %2").arg(repeats).arg(1));
+            commands_pack.append(QString("big copy %1 bytes from %2").arg(repeats).arg(use_repeats-1));
             commands_type.append(2);
             commands_value.append(repeats);
-            commands_link.append(1*16);
+            commands_link.append((use_repeats-1)*16);
             index += repeats;
             searchsize = 1;
             bMovingOn = true;
@@ -585,9 +687,9 @@ void MainWindow::on_pushButton_pack_clicked()
             {
                 //not enough bytes at the end, don't use big
             }
-            else if (false == backbuffer_big.contains(ba.mid(index,6)) )
+            else if ( (false == backbuffer_big.contains(ba.mid(index,6))) && ((backbuffer_big.size()-backbuffer_big.indexOf(ba.mid(index,searchsize))) < 250) )
             {
-                //is this 5 or less? too small, don't use big
+                //is this 5 or less not too far away? small can hadle this, don't use big
             }
             else
             {
@@ -609,7 +711,7 @@ void MainWindow::on_pushButton_pack_clicked()
                         buf16[0] = (backbuffer_big.size()-backbuffer_big.indexOf(ba.mid(index,searchsize)))*16;
                         compr.append(QByteArray(1,buf8[0]));
                         compr.append(QByteArray(1,buf8[1]));
-                        commands.append(QString("big copy %1 bytes from %2").arg(searchsize).arg(buf16[0]/16));
+                        commands_pack.append(QString("big copy %1 bytes from %2").arg(searchsize).arg(buf16[0]/16));
                         commands_type.append(2);
                         commands_value.append(searchsize);
                         commands_link.append(buf16[0]);
@@ -649,7 +751,7 @@ void MainWindow::on_pushButton_pack_clicked()
                     //now writing to data stream, link only
                     buf8[0] = (backbuffer_small.size()-backbuffer_small.indexOf(ba.mid(index,searchsize)));
                     compr.append(QByteArray(1,buf8[0]));
-                    commands.append(QString("small copy %1 bytes from %2").arg(searchsize).arg(buf8[0]));
+                    commands_pack.append(QString("small copy %1 bytes from %2").arg(searchsize).arg(buf8[0]));
                     commands_type.append(1);
                     commands_value.append(searchsize);
                     commands_link.append(buf8[0]);
@@ -680,7 +782,7 @@ void MainWindow::on_pushButton_pack_clicked()
             for (int i=0;i<searchsize;i++)
             {
                 //writing to data stream
-                commands.append(QString("none fill byte %1").arg((uint8_t)ba[index],0,16));
+                commands_pack.append(QString("none fill byte %1").arg((uint8_t)ba[index],0,16));
                 commands_type.append(0);
                 commands_value.append(ba[index]);
                 commands_link.append(0);
@@ -698,7 +800,7 @@ void MainWindow::on_pushButton_pack_clicked()
         }
     }
     //end sequence
-    commands.append(QString("end"));
+    commands_pack.append(QString("end"));
     commands_type.append(3);
     commands_value.append(0);
     commands_link.append(0);
@@ -810,7 +912,7 @@ void MainWindow::on_pushButton_pack_clicked()
     for (int i=0;i<compr.size();i++)
         test_in[i] = compr[i];
 
-    commands_rcv.clear();
+    commands_unpack.clear();
     unpack_graphics((char*)test_in,(char*)test_out);
     //verify
     QByteArray test_out_b;
