@@ -292,101 +292,7 @@ char * unpack_graphics(char *src,char *dst)
       } while( true );
 }
 
-
-/*char * unpack_graphics(char *param_1,char *dst,uint param_3)
-{
-  char cVar1;
-  char *pcVar2;
-  uint uVar3;
-  uint uVar4;
-  uint var_const_100h;
-  int iVar5;
-  int iVar6;
-  char *param_1_reg = param_1;
-  char *dst_reg = dst;
-  uint param_3_reg = param_3;
-
-  var_const_100h = 0x100;
-  iVar5 = 1;
-  do {
-    while( true ) {
-      iVar5 = iVar5 + -1;
-      pcVar2 = param_1_reg;
-      if (iVar5 == 0) {
-        param_3_reg = (uint)*param_1_reg;
-        pcVar2 = param_1_reg + 1;
-        iVar5 = 8;
-      }
-      uVar4 = param_3_reg & 1;
-      param_3_reg = param_3_reg >> 1;
-      if (uVar4 == 1) break;
-      param_1_reg = pcVar2 + 1;
-      *dst_reg = *pcVar2;
-      dst_reg = dst_reg + 1;
-    }
-    iVar5 = iVar5 + -1;
-    if (iVar5 == 0) {
-      param_3_reg = (uint)*pcVar2;
-      pcVar2 = pcVar2 + 1;
-      iVar5 = 8;
-    }
-    uVar4 = param_3_reg & 1;
-    param_3_reg = param_3_reg >> 1;
-    if (uVar4 == 1) {
-      iVar5 = iVar5 + -1;
-      if (iVar5 == 0) {
-        param_3_reg = (uint)*pcVar2;
-        pcVar2 = pcVar2 + 1;
-        iVar5 = 8;
-      }
-      uVar4 = param_3_reg & 1;
-      uVar3 = param_3_reg >> 1;
-      iVar5 = iVar5 + -1;
-      if (iVar5 == 0) {
-        uVar3 = (uint)*pcVar2;
-        pcVar2 = pcVar2 + 1;
-        iVar5 = 8;
-      }
-      param_3_reg = uVar3 >> 1;
-      iVar6 = (uint)(uVar4 == 1) * 2 + 2 + (uint)((uVar3 & 1) == 1);
-      param_1_reg = pcVar2 + 1;
-      uVar4 = (int)*pcVar2 & 0xff;
-      if (uVar4 == 0) {
-        uVar4 = var_const_100h & 0xffff;
-      }
-    }
-    else {
-      param_1_reg = pcVar2 + 2;
-      uVar4 = ((int)*pcVar2 & 0xffU) << 8 | (int)pcVar2[1] & 0xffU;
-      if (uVar4 == 0) {
-        return param_1_reg;
-      }
-      uVar3 = (int)pcVar2[1] & 0xf;
-      if (uVar3 == 0) {
-        cVar1 = *param_1_reg;
-        param_1_reg = pcVar2 + 3;
-        uVar4 = uVar4 >> 4;
-        iVar6 = ((int)cVar1 & 0xffU) + 1;
-      }
-      else {
-        iVar6 = uVar3 + 2;
-        uVar4 = uVar4 >> 4;
-      }
-    }
-    //pcVar2 = &(dst_reg[-uVar4]);
-    pcVar2 = dst_reg-uVar4;
-    for (; iVar6 != 0; iVar6 = iVar6 + -1) {
-      cVar1 = *pcVar2;
-      pcVar2 = pcVar2 + 1;
-      *dst_reg = cVar1;
-      dst_reg = dst_reg + 1;
-    }
-  } while( true );
-}
-*/
-
-//debug point : 060128B2
-
+//debug point in HWRAM : 060128B2
 
 void MainWindow::on_pushButton_unpach_graph_clicked()
 {
@@ -544,19 +450,6 @@ void MainWindow::on_pushButton_unpach_graph_clicked()
 
 }
 
-
-#define PUSH_COMMAND_STREAM_BIT(x) \
-    { \
-    if (x) command_stream_value |= 0x1 << command_stream_index; \
-    command_stream_index++; \
-    if (command_stream_index==8) \
-    { \
-        command_stream_buf.append(QByteArray(1,(char)command_stream_value)); \
-        command_stream_value = 0; \
-        command_stream_index = 0; \
-    } \
-    }
-
 void MainWindow::on_pushButton_pack_clicked()
 {
     //trying to pack in compatible format
@@ -575,7 +468,6 @@ void MainWindow::on_pushButton_pack_clicked()
     }
 
     //ba = ba.left(1490);
-
 
     pack_keys.clear();
     unpack_keys.clear();
@@ -629,72 +521,11 @@ void MainWindow::on_pushButton_pack_clicked()
                 if (repeats > 250) repeats = 250; //big is limited with 1-byte size
             }
         }
-        /*else if (repeats > 3)
-        {
-            if (backbuffer_small.contains(ba[index]))
-                use_repeats = 1;//use small
-            else if (backbuffer_big.contains(ba[index]))
-                use_repeats = 2;//use big
-        }*/
         else if (repeats > 2)
         {
             if (backbuffer_small.contains(ba[index]))
                 use_repeats = 1;//use small
         }
-
-        /*switch (use_buffer)
-        {
-        case 0:
-            //writing data as-is
-            //writing to data stream
-            compr.append(ba.mid(index,1));
-            index++;
-            PUSH_COMMAND_STREAM_BIT(0)
-            break;
-        case 1:
-            //use small buffer
-            //now writing to data stream, link only
-            buf8[0] = (backbuffer_small.size()-backbuffer_small.lastIndexOf(ba[index]));
-            compr.append(QByteArray(1,buf8[0]));
-            //using small opcode
-            PUSH_COMMAND_STREAM_BIT(1)
-            PUSH_COMMAND_STREAM_BIT(1)
-            //writing to command stream, value upper bit
-            if (repeats > 3)
-                PUSH_COMMAND_STREAM_BIT(1)
-            else
-                PUSH_COMMAND_STREAM_BIT(0)
-            //writing to command stream, value lower bit
-            if (repeats % 2)
-                PUSH_COMMAND_STREAM_BIT(1)
-            else
-                PUSH_COMMAND_STREAM_BIT(0)
-            index += repeats;
-            break;
-        case 2:
-            //use big buffer
-            //now writing to data stream, link first, amount second
-            buf16[0] = (backbuffer_big.size()-backbuffer_big.lastIndexOf(ba.mid(index,searchsize)))*16;
-            compr.append(QByteArray(1,buf8[0]));
-            compr.append(QByteArray(1,buf8[1]));
-            buf8[0] = searchsize;
-            compr.append(QByteArray(1,buf8[0]));
-            //writing opcode
-            PUSH_COMMAND_STREAM_BIT(1);
-            PUSH_COMMAND_STREAM_BIT(0);
-            index += repeats;
-            break;
-        }
-
-        //updating buffers
-        backbuffer_big = compr;
-        backbuffer_small = compr.right(256);
-
-        backbuffer_big = ba.left(index);
-        if (index < 256)
-            backbuffer_small = ba.left(index);
-        else
-            backbuffer_small = ba.mid(index-256,256);*/
 
         //checking if current search sample exists in backbuffer
         bMovingOn = false;
@@ -708,22 +539,6 @@ void MainWindow::on_pushButton_pack_clicked()
             commands_type.append(1);
             commands_value.append(repeats);
             commands_link.append(1);
-            //now writing to data stream, link only
-            buf8[0] = 1; //self-replicating trick
-            compr.append(QByteArray(1,buf8[0]));
-            //using small opcode
-            PUSH_COMMAND_STREAM_BIT(1)
-            PUSH_COMMAND_STREAM_BIT(1)
-            //writing to command stream, value upper bit
-            if (repeats > 3)
-                PUSH_COMMAND_STREAM_BIT(1)
-            else
-                PUSH_COMMAND_STREAM_BIT(0)
-            //writing to command stream, value lower bit
-            if (repeats % 2)
-                PUSH_COMMAND_STREAM_BIT(1)
-            else
-                PUSH_COMMAND_STREAM_BIT(0)
             index += repeats;
             searchsize = 1;
             bMovingOn = true;
@@ -746,14 +561,6 @@ void MainWindow::on_pushButton_pack_clicked()
             commands_type.append(2);
             commands_value.append(repeats);
             commands_link.append(1*16);
-            buf16[0] = 1*16; //self-replicating trick
-            compr.append(QByteArray(1,buf8[0]));
-            compr.append(QByteArray(1,buf8[1]));
-            buf8[0] = repeats;
-            compr.append(QByteArray(1,buf8[0]));
-            //writing opcode
-            PUSH_COMMAND_STREAM_BIT(1);
-            PUSH_COMMAND_STREAM_BIT(0);
             index += repeats;
             searchsize = 1;
             bMovingOn = true;
@@ -802,11 +609,6 @@ void MainWindow::on_pushButton_pack_clicked()
                         commands_type.append(2);
                         commands_value.append(searchsize);
                         commands_link.append(buf16[0]);
-                        buf8[0] = searchsize;
-                        compr.append(QByteArray(1,buf8[0]));
-                        //writing to command stream first, it's a single zero bit, so we're not touching the value
-                        PUSH_COMMAND_STREAM_BIT(1);
-                        PUSH_COMMAND_STREAM_BIT(0);
                         //updating things
                         index += searchsize;
                         searchsize = 1;
@@ -847,19 +649,6 @@ void MainWindow::on_pushButton_pack_clicked()
                     commands_type.append(1);
                     commands_value.append(searchsize);
                     commands_link.append(buf8[0]);
-                    //writing to command stream, opcode bit
-                    PUSH_COMMAND_STREAM_BIT(1)
-                    PUSH_COMMAND_STREAM_BIT(1)
-                    //writing to command stream, value upper bit
-                    if (searchsize > 3)
-                        PUSH_COMMAND_STREAM_BIT(1)
-                    else
-                        PUSH_COMMAND_STREAM_BIT(0)
-                    //writing to command stream, value lower bit
-                    if (searchsize % 2)
-                        PUSH_COMMAND_STREAM_BIT(1)
-                    else
-                        PUSH_COMMAND_STREAM_BIT(0)
                     //updating things
                     index += searchsize;
                     searchsize = 1;
@@ -891,10 +680,7 @@ void MainWindow::on_pushButton_pack_clicked()
                 commands_type.append(0);
                 commands_value.append(ba[index]);
                 commands_link.append(0);
-                compr.append(ba.mid(index,1));
                 index++;
-                //writing to command stream, opcode bit
-                PUSH_COMMAND_STREAM_BIT(0)
             }
             searchsize = 1;
             if (index < 4000)
@@ -912,12 +698,6 @@ void MainWindow::on_pushButton_pack_clicked()
     commands_type.append(3);
     commands_value.append(0);
     commands_link.append(0);
-
-    compr.append(QByteArray(3,0));
-    PUSH_COMMAND_STREAM_BIT(1);
-    PUSH_COMMAND_STREAM_BIT(0);
-    for (int i=0;i<8;i++)
-        PUSH_COMMAND_STREAM_BIT(0);
 
     //trying to assemble commands from 2 streams
     compr.clear();
@@ -1005,9 +785,6 @@ void MainWindow::on_pushButton_pack_clicked()
             case 3:
                 //stop
                 compr.append(QByteArray(2,0));
-                /*compr.append(QByteArray(2,commands_link[i]/0x100));
-                compr.append(QByteArray(1,commands_link[i]%0x100));
-                compr.append(QByteArray(1,commands_value[i]));*/
                 break;
             }
         }
