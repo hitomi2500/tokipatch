@@ -632,6 +632,8 @@ void MainWindow::on_pushButton_pack_clicked()
         }
 
         repeats = repeats_max;
+        if ( (repeats_max < 6) && (use_repeats >= 2) )
+            use_repeats = 0; //no go for small repeats
 
         //checking if current search sample exists in backbuffer
         bMovingOn = false;
@@ -690,6 +692,10 @@ void MainWindow::on_pushButton_pack_clicked()
             else if ( (false == backbuffer_big.contains(ba.mid(index,6))) && ((backbuffer_big.size()-backbuffer_big.indexOf(ba.mid(index,searchsize))) < 250) )
             {
                 //is this 5 or less not too far away? small can hadle this, don't use big
+            }
+            else if (false == backbuffer_big.contains(ba.mid(index,3)))
+            {
+                //is this 2 or less? don't use big
             }
             else
             {
