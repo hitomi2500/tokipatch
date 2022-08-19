@@ -522,7 +522,7 @@ void MainWindow::on_pushButton_pack_clicked()
 
         //choosing the buffer to use
         use_repeats = 0;
-        if (repeats > 5)
+        if (repeats > 6)
         {
             if (backbuffer_big.contains(ba[index]))
             {
@@ -635,92 +635,173 @@ void MainWindow::on_pushButton_pack_clicked()
         if ( (repeats_max < 6) && (use_repeats >= 2) )
             use_repeats = 0; //no go for small repeats
 
+        repeats--;
+
+        if (commands_pack.size()==56)
+                bMovingOn = true;
+
+        //detecting gains for big and small buffer
+        int big_gain = 0;
+        while ( ( backbuffer_big.contains(ba.mid(index,searchsize+big_gain))) && (big_gain>=0) && (index+searchsize+big_gain<ba.size()))
+        {
+            if (index+6 >= ba.length())
+            {
+                big_gain = -1;//not enough bytes at the end, don't use big
+            }
+            else if ( (false == backbuffer_big.contains(ba.mid(index,6))) && ((backbuffer_big.size()-backbuffer_big.indexOf(ba.mid(index,searchsize+big_gain))) < 250) )
+            {
+                big_gain = -1;//is this 5 or less not too far away? small can hadle this, don't use big
+            }
+            else if (false == backbuffer_big.contains(ba.mid(index,3)))
+            {
+                big_gain = -1;//is this 2 or less? don't use big
+            }
+            else
+            {
+               big_gain++;
+            }
+        }
+        big_gain--;
+
+        int little_gain = 0;
+        while ( (backbuffer_small.contains(ba.mid(index,searchsize+little_gain))) && (little_gain < 6) )
+        {
+            little_gain++;
+        }
+        little_gain--;
+
         //checking if current search sample exists in backbuffer
         bMovingOn = false;
 
         //repeats go first
-        if ( use_repeats == 1)
+        if ( (repeats >= little_gain) && (repeats >= big_gain) )
         {
-            //use small buffer
-            repeats--;
-            commands_pack.append(QString("small copy %1 bytes from %2").arg(repeats).arg(1));
-            commands_type.append(1);
-            commands_value.append(repeats);
-            commands_link.append(1);
-            index += repeats;
-            searchsize = 1;
-            bMovingOn = true;
-            if (index < 4000)
-                backbuffer_big = ba.left(index);
-            else
-                backbuffer_big = ba.mid(index-4000,4000);
-            if (index < 256)
-                backbuffer_small = ba.left(index);
-            else
-                backbuffer_small = ba.mid(index-256,256);
+            if ( use_repeats == 1)
+            {
+                //use small buffer
+                commands_pack.append(QString("small repeat %1 bytes from %2").arg(repeats).arg(1));
+                commands_type.append(1);
+                commands_value.append(repeats);
+                commands_link.append(1);
+                index += repeats;
+                searchsize = 1;
+                bMovingOn = true;
+                if (index < 4000)
+                    backbuffer_big = ba.left(index);
+                else
+                    backbuffer_big = ba.mid(index-4000,4000);
+                if (index < 256)
+                    backbuffer_small = ba.left(index);
+                else
+                    backbuffer_small = ba.mid(index-256,256);
+            }
+
+            if ( (false==bMovingOn) && (use_repeats >= 2) && (use_repeats <= 5) )
+            {
+                //use big buffer
+                //now writing to data stream, link first, amount second
+                commands_pack.append(QString("big repeat %1 bytes from %2").arg(repeats).arg(use_repeats-1));
+                commands_type.append(2);
+                commands_value.append(repeats);
+                commands_link.append((use_repeats-1)*16);
+                index += repeats;
+                searchsize = 1;
+                bMovingOn = true;
+                if (index < 4000)
+                    backbuffer_big = ba.left(index);
+                else
+                    backbuffer_big = ba.mid(index-4000,4000);
+                if (index < 256)
+                    backbuffer_small = ba.left(index);
+                else
+                    backbuffer_small = ba.mid(index-256,256);
+            }
         }
 
-        if ( (false==bMovingOn) && (use_repeats >= 2) && (use_repeats <= 5) )
+        if ( (big_gain >= little_gain) && (big_gain >= repeats) )
         {
-            //use big buffer
-            //now writing to data stream, link first, amount second
-            repeats --;
-            commands_pack.append(QString("big copy %1 bytes from %2").arg(repeats).arg(use_repeats-1));
-            commands_type.append(2);
-            commands_value.append(repeats);
-            commands_link.append((use_repeats-1)*16);
-            index += repeats;
-            searchsize = 1;
-            bMovingOn = true;
-            if (index < 4000)
-                backbuffer_big = ba.left(index);
-            else
-                backbuffer_big = ba.mid(index-4000,4000);
-            if (index < 256)
-                backbuffer_small = ba.left(index);
-            else
-                backbuffer_small = ba.mid(index-256,256);
+            //big buffer check
+            if ( (false==bMovingOn) && backbuffer_big.contains(ba.mid(index,searchsize)))
+            {
+                if (index+6 >= ba.length())
+                {
+                    //not enough bytes at the end, don't use big
+                }
+                else if ( (false == backbuffer_big.contains(ba.mid(index,6))) && ((backbuffer_big.size()-backbuffer_big.indexOf(ba.mid(index,searchsize))) < 250) )
+                {
+                    //is this 5 or less not too far away? small can hadle this, don't use big
+                }
+                else if (false == backbuffer_big.contains(ba.mid(index,3)))
+                {
+                    //is this 2 or less? don't use big
+                }
+                else
+                {
+                   //using big all right, but right now?
+                   //is this the max?
+                   if (backbuffer_big.contains(ba.mid(index,searchsize+1)) && (index+searchsize < ba.size()) )
+                   {
+                        //not max for big buffer yet, moving on
+                        searchsize++;
+                        bMovingOn = true;
+                   }
+                   else
+                   {
+                        //max big buffer
+                        //bigbuffer entries are 24 bit wide, so our sample must be at least 4 to add
+                        //if (searchsize >= 4)
+                        {
+                            //now writing to data stream, link first, amount second
+                            buf16[0] = (backbuffer_big.size()-backbuffer_big.indexOf(ba.mid(index,searchsize)))*16;
+                            compr.append(QByteArray(1,buf8[0]));
+                            compr.append(QByteArray(1,buf8[1]));
+                            commands_pack.append(QString("big copy %1 bytes from %2").arg(searchsize).arg(buf16[0]/16));
+                            commands_type.append(2);
+                            commands_value.append(searchsize);
+                            commands_link.append(buf16[0]);
+                            //updating things
+                            index += searchsize;
+                            searchsize = 1;
+                            if (index < 4000)
+                                backbuffer_big = ba.left(index);
+                            else
+                                backbuffer_big = ba.mid(index-4000,4000);
+                            if (index < 256)
+                                backbuffer_small = ba.left(index);
+                            else
+                                backbuffer_small = ba.mid(index-256,256);
+                            bMovingOn = true;
+                        }
+                    }
+                }
+            }
         }
 
-        //big buffer check
-        if ( (false==bMovingOn) && backbuffer_big.contains(ba.mid(index,searchsize)))
+        if ( (little_gain >= repeats) && (little_gain >= big_gain) )
         {
-            if (index+6 >= ba.length())
+            //small buffer check
+            if ( (false==bMovingOn) && (backbuffer_small.contains(ba.mid(index,searchsize))) )
             {
-                //not enough bytes at the end, don't use big
-            }
-            else if ( (false == backbuffer_big.contains(ba.mid(index,6))) && ((backbuffer_big.size()-backbuffer_big.indexOf(ba.mid(index,searchsize))) < 250) )
-            {
-                //is this 5 or less not too far away? small can hadle this, don't use big
-            }
-            else if (false == backbuffer_big.contains(ba.mid(index,3)))
-            {
-                //is this 2 or less? don't use big
-            }
-            else
-            {
-               //using big all right, but right now?
-               //is this the max?
-               if (backbuffer_big.contains(ba.mid(index,searchsize+1)) && (index+searchsize < ba.size()) )
-               {
-                    //not max for big buffer yet, moving on
+                //is this the max?
+                if ((backbuffer_small.contains(ba.mid(index,searchsize+1))) && (searchsize < 5) && (index+searchsize < ba.length()))
+                {
+                    //not max for small buffer, moving on
                     searchsize++;
                     bMovingOn = true;
-               }
-               else
-               {
-                    //max big buffer
-                    //bigbuffer entries are 24 bit wide, so our sample must be at least 4 to add
-                    //if (searchsize >= 4)
+                }
+                else
+                {
+                    //max small buffer
+                    //smallbuffer entries are 10 bit wide, so our sample must be at least 2 to add
+                    if ( (searchsize >= 2) && (searchsize <= 5) )
                     {
-                        //now writing to data stream, link first, amount second
-                        buf16[0] = (backbuffer_big.size()-backbuffer_big.indexOf(ba.mid(index,searchsize)))*16;
+                        //now writing to data stream, link only
+                        buf8[0] = (backbuffer_small.size()-backbuffer_small.indexOf(ba.mid(index,searchsize)));
                         compr.append(QByteArray(1,buf8[0]));
-                        compr.append(QByteArray(1,buf8[1]));
-                        commands_pack.append(QString("big copy %1 bytes from %2").arg(searchsize).arg(buf16[0]/16));
-                        commands_type.append(2);
+                        commands_pack.append(QString("small copy %1 bytes from %2").arg(searchsize).arg(buf8[0]));
+                        commands_type.append(1);
                         commands_value.append(searchsize);
-                        commands_link.append(buf16[0]);
+                        commands_link.append(buf8[0]);
                         //updating things
                         index += searchsize;
                         searchsize = 1;
@@ -734,50 +815,11 @@ void MainWindow::on_pushButton_pack_clicked()
                             backbuffer_small = ba.mid(index-256,256);
                         bMovingOn = true;
                     }
-                }
-            }
-        }
-
-        //small buffer check
-        if ( (false==bMovingOn) && (backbuffer_small.contains(ba.mid(index,searchsize))) )
-        {
-            //is this the max?
-            if ((backbuffer_small.contains(ba.mid(index,searchsize+1))) && (searchsize < 5) && (index+searchsize < ba.length()))
-            {
-                //not max for small buffer, moving on
-                searchsize++;
-                bMovingOn = true;
-            }
-            else
-            {
-                //max small buffer
-                //smallbuffer entries are 10 bit wide, so our sample must be at least 2 to add
-                if ( (searchsize >= 2) && (searchsize <= 5) )
-                {
-                    //now writing to data stream, link only
-                    buf8[0] = (backbuffer_small.size()-backbuffer_small.indexOf(ba.mid(index,searchsize)));
-                    compr.append(QByteArray(1,buf8[0]));
-                    commands_pack.append(QString("small copy %1 bytes from %2").arg(searchsize).arg(buf8[0]));
-                    commands_type.append(1);
-                    commands_value.append(searchsize);
-                    commands_link.append(buf8[0]);
-                    //updating things
-                    index += searchsize;
-                    searchsize = 1;
-                    if (index < 4000)
-                        backbuffer_big = ba.left(index);
                     else
-                        backbuffer_big = ba.mid(index-4000,4000);
-                    if (index < 256)
-                        backbuffer_small = ba.left(index);
-                    else
-                        backbuffer_small = ba.mid(index-256,256);
-                    bMovingOn = true;
-                }
-                else
-                {
-                    //failed invoking small buffer, will try to invoke others
-                    bMovingOn = false;
+                    {
+                        //failed invoking small buffer, will try to invoke others
+                        bMovingOn = false;
+                    }
                 }
             }
         }
