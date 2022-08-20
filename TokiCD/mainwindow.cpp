@@ -461,6 +461,22 @@ void MainWindow::on_pushButton_unpach_graph_clicked()
 
 }
 
+QByteArray backbuffer_small;
+QByteArray backbuffer_big;
+
+void update_buffers(int index, QByteArray ba)
+{
+    if (index < 4090)
+        backbuffer_big = ba.left(index);
+    else
+        backbuffer_big = ba.mid(index-4090,4090);
+    if (index < 256)
+        backbuffer_small = ba.left(index);
+    else
+        backbuffer_small = ba.mid(index-256,256);
+}
+
+
 void MainWindow::on_pushButton_pack_clicked()
 {
     int compressed,uncompressed;
@@ -492,8 +508,6 @@ void MainWindow::on_pushButton_pack_clicked()
     char * output = (char*)malloc(1005000);
     memset(output,0,1005000);
     compressed=0;
-    QByteArray backbuffer_small;
-    QByteArray backbuffer_big;
     QByteArray compr;
     QByteArray command_stream_buf;
     int index = 0;
@@ -538,7 +552,7 @@ void MainWindow::on_pushButton_pack_clicked()
         //detecting gains for big and small buffer
         int big_size = 0;
         int big_link = 0;
-        while ( ( backbuffer_big.contains(ba.mid(index,big_size))) && (ba.mid(index,big_size).size()==big_size) && big_size < 256 )
+        while ( ( backbuffer_big.contains(ba.mid(index,big_size))) && (ba.mid(index,big_size).size()==big_size) && big_size < 257 )
         {
             big_size++;
         }
@@ -546,7 +560,7 @@ void MainWindow::on_pushButton_pack_clicked()
         big_link = (backbuffer_big.size()-backbuffer_big.lastIndexOf(ba.mid(index,big_size)));
         if (big_size < 2)
             big_size = 0; //is this 2 or less? don't use big
-        if ( (big_size < 6) && (big_link < 256) )
+        if ( (big_size < 6) && (big_link < 257) )
             big_size = 0; //is this 5 or less not too far away? small can hadle this, don't use big
 
         int small_size = 0;
@@ -562,7 +576,7 @@ void MainWindow::on_pushButton_pack_clicked()
         //repeats go first
         if ( (repeats_max > small_size) && (repeats_max > big_size) && (repeats_max > 1) )
         {
-            if ( ( repeats_max <= 5) && (repeats_max_link < 250))
+            if ( ( repeats_max <= 5) && (repeats_max_link < 257))
             {
                 //use small buffer
                 commands_pack.append(QString("small repeat %1 bytes from %2").arg(repeats_max).arg(repeats_max_link));
@@ -572,14 +586,7 @@ void MainWindow::on_pushButton_pack_clicked()
                 index += repeats_max;
                 if (index > PACK_SIZES_START)
                     pack_sizes.append(QString("%1,").arg(index));
-                if (index < 4000)
-                    backbuffer_big = ba.left(index);
-                else
-                    backbuffer_big = ba.mid(index-4000,4000);
-                if (index < 256)
-                    backbuffer_small = ba.left(index);
-                else
-                    backbuffer_small = ba.mid(index-256,256);
+                update_buffers(index,ba);
             }
             else
             {
@@ -592,14 +599,7 @@ void MainWindow::on_pushButton_pack_clicked()
                 index += repeats_max;
                 if (index > PACK_SIZES_START)
                     pack_sizes.append(QString("%1,").arg(index));
-                if (index < 4000)
-                    backbuffer_big = ba.left(index);
-                else
-                    backbuffer_big = ba.mid(index-4000,4000);
-                if (index < 256)
-                    backbuffer_small = ba.left(index);
-                else
-                    backbuffer_small = ba.mid(index-256,256);
+                update_buffers(index,ba);
             }
         }
         else if ( (small_size > big_size) && (small_size > 1) )
@@ -614,14 +614,7 @@ void MainWindow::on_pushButton_pack_clicked()
             index += small_size;
             if (index > PACK_SIZES_START)
                 pack_sizes.append(QString("%1,").arg(index));
-            if (index < 4000)
-                backbuffer_big = ba.left(index);
-            else
-                backbuffer_big = ba.mid(index-4000,4000);
-            if (index < 256)
-                backbuffer_small = ba.left(index);
-            else
-                backbuffer_small = ba.mid(index-256,256);
+            update_buffers(index,ba);
         }
         else if ( (big_size > 2) )
         {
@@ -636,14 +629,7 @@ void MainWindow::on_pushButton_pack_clicked()
             index += big_size;
             if (index > PACK_SIZES_START)
                 pack_sizes.append(QString("%1,").arg(index));
-            if (index < 4000)
-                backbuffer_big = ba.left(index);
-            else
-                backbuffer_big = ba.mid(index-4000,4000);
-            if (index < 256)
-                backbuffer_small = ba.left(index);
-            else
-                backbuffer_small = ba.mid(index-256,256);
+            update_buffers(index,ba);
         }
         else
         {
@@ -654,14 +640,7 @@ void MainWindow::on_pushButton_pack_clicked()
             commands_value.append(ba[index]);
             commands_link.append(0);
             index++;
-            if (index < 4000)
-                backbuffer_big = ba.left(index);
-            else
-                backbuffer_big = ba.mid(index-4000,4000);
-            if (index < 256)
-                backbuffer_small = ba.left(index);
-            else
-                backbuffer_small = ba.mid(index-256,256);
+            update_buffers(index,ba);
         }
     }
     //end sequence
