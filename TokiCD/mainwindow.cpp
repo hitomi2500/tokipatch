@@ -306,8 +306,8 @@ void MainWindow::on_pushButton_unpach_graph_clicked()
     int compressed,uncompressed;
 
     //QString fileName("NBN.BIN");// = QFileDialog::getOpenFileName(this,tr("Open graph file"), "", tr("Graph file (*.*)"));
-    //QString fileName("SYS_TBL.BIN");// = QFileDialog::getOpenFileName(this,tr("Open graph file"), "", tr("Graph file (*.*)"));
-    QString fileName("SYS_TBL_stats_packed.data");// = QFileDialog::getOpenFileName(this,tr("Open graph file"), "", tr("Graph file (*.*)"));
+    QString fileName("SYS_TBL.BIN");// = QFileDialog::getOpenFileName(this,tr("Open graph file"), "", tr("Graph file (*.*)"));
+    //QString fileName("SYS_TBL_stats_packed.data");// = QFileDialog::getOpenFileName(this,tr("Open graph file"), "", tr("Graph file (*.*)"));
     //QString fileName("SYS_TBL_stats_unpacked.data.pack");// = QFileDialog::getOpenFileName(this,tr("Open graph file"), "", tr("Graph file (*.*)"));
 
     QFile file_in(fileName);
@@ -370,13 +370,13 @@ void MainWindow::on_pushButton_unpach_graph_clicked()
 
     //from sys_tbl.bin
     //unpack_graphics(input-0x86000+0x97884,output,0); //x8, x16, pictogramms for main screen and affections
-    //unpack_graphics(input-0x86000+0x98494,output); //4bpp, x8, x32, frame and stats
+    unpack_graphics(input-0x86000+0x98494,output,&compressed,&uncompressed); //ISO 0x8B494 4bpp, x8, x32, frame and stats
     //unpack_graphics(input-0x86000+0x9F64C,output,0); //tiled 8bpp, ??
     //unpack_graphics(input-0x86000+0xA0DE8,output,0); //tiled 8bpp, ??
     //unpack_graphics(input-0x86000+0xA2548,output,0); //single tile ??
     //unpack_graphics(input-0x86000+0xA34E8,output,0); //tiled 4bpp, 16x16, some symbols
 
-    unpack_graphics(input,output,&compressed,&uncompressed); //
+    //unpack_graphics(input,output,&compressed,&uncompressed); //
 
     ui->label_status->setText(QString("Uncompress OK, in size %1, out size %2").arg(compressed).arg(uncompressed));
 
