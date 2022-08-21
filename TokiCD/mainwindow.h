@@ -31,6 +31,8 @@ QT_END_NAMESPACE
 
   };
 
+#define PACK_SIZES_START (1640)
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -38,6 +40,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void unpack_graphics(char *src,char *dst, int *compressed_size = NULL,  int *decompressed_size = NULL  );
+    void update_buffers(int index, QByteArray ba);
+    void decompress_from_file(QString filename, int offset, bool tiled, int size_x, int size_y, int bpp, int palette_offset);
 
 private slots:
     void on_pushButton_clicked();
@@ -52,8 +57,18 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_pushButton_5_clicked();
+
 private:
     Ui::MainWindow *ui;
     QList <iso_directory_record> filelist;
+    QList<QString> commands_pack;
+    QList<QString> commands_unpack;
+    QString pack_keys;
+    QString unpack_keys;
+    QString pack_sizes;
+    QString unpack_sizes;
+    QByteArray backbuffer_small;
+    QByteArray backbuffer_big;
 };
 #endif // MAINWINDOW_H

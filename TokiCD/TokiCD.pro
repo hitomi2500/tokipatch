@@ -10,7 +10,12 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    mainwindow_bpp_conversion.cpp \
+    mainwindow_compress.cpp \
+    mainwindow_decompress.cpp \
+    mainwindow_draw_font.cpp \
+    mainwindow_process_cd.cpp
 
 HEADERS += \
     mainwindow.h
