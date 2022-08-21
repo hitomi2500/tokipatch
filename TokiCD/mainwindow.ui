@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -79,6 +79,19 @@
         </property>
         <property name="text">
          <string>Single bin to ISO</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_6">
+        <property name="geometry">
+         <rect>
+          <x>300</x>
+          <y>50</y>
+          <width>201</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>24bpp gimp pal to 15bpp</string>
         </property>
        </widget>
       </widget>

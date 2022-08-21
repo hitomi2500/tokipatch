@@ -254,7 +254,7 @@ void MainWindow::on_pushButton_unpach_graph_clicked()
 
 
     //from nbn.bin
-    //decompress_from_file("NBN.BIN",0x2DA800+0x20,false,128,96,8,0x2DA800+0x20298); //photo x128, mio
+    //decompress_from_file("NBN.BIN",0x2DA800+0x20,false,128,96,8,0x2DA800+0x20298); //photo x128, mio, ISO 0x1A1F820, pal  0x1A3FB98
     //decompress_from_file("NBN.BIN",0x2DA800+0x1E08,false,128,96,8,0x2DA800+0x1FE98); //photo x128, yuuina
     //decompress_from_file("NBN.BIN",0x2DA800+0x3384,false,128,96,8,0x2DA800+0x20298); //photo x128, ayako
     //decompress_from_file("NBN.BIN",0x2DA800+0x4DF8,false,128,96,8,0x2DA800+0x20698); //photo x128, saki

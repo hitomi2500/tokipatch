@@ -66,3 +66,23 @@ void MainWindow::on_pushButton_5_clicked()
     }
     iso_file1.close();
 }
+
+void MainWindow::on_pushButton_6_clicked()
+{
+    QFile cd_file1("24b.pal");
+    cd_file1.open(QIODevice::ReadOnly);
+    QByteArray b1 = cd_file1.readAll();
+    cd_file1.close();
+
+    QFile iso_file1("15b.pal");
+    iso_file1.open(QIODevice::WriteOnly|QIODevice::Truncate);
+    uint8_t color;
+    for (int i=0;i<b1.size()/3;i++)
+    {
+        color = (b1[i*3+0]>>3) | (((b1[i*3+1]>>3)&0x7)<<5);
+        iso_file1.write(QByteArray(1,color));
+        color = (((b1[i*3+1]>>3)&0x18)>>3) | (b1[i*3+2]&0xF8);
+        iso_file1.write(QByteArray(1,color));
+    }
+    iso_file1.close();
+}

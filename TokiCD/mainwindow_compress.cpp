@@ -10,7 +10,7 @@ void MainWindow::on_pushButton_pack_clicked()
     int compressed,uncompressed;
     //trying to pack in compatible format
     //String fileName("SYS_TBL_stats_unpacked.data");
-    QString fileName("4bpp.data");
+    QString fileName("8bpp.data");
     QFile file_in(fileName);
     QByteArray ba;
     QList<int> commands_type;
