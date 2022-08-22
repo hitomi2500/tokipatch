@@ -296,7 +296,7 @@ void MainWindow::on_pushButton_unpach_graph_clicked()
     //decompress_from_file("BS.BIN",0x27DF14+0xAF4,true,256,128,8,0);//zeros
 
     //from sys_tbl.bin
-    decompress_from_file("SYS_TBL.BIN",-0x86000+0x97884,false,16,512,4,0);//pictogramms for main screen and affections
+    decompress_from_file("SYS_TBL.BIN",-0x86000+0x97884,false,16,512,4,0);//pictogramms for main screen and affections ISO 0x8A884
     //decompress_from_file("SYS_TBL.BIN",-0x86000+0x98494,false,32,256,4,0); //4bpp, x8, x32, frame and stats ISO 0x8B494
     //decompress_from_file("SYS_TBL.BIN",-0x86000+0x9F64C,true,32,16,8,0); //?
     //decompress_from_file("SYS_TBL.BIN",-0x86000+0xA0DE8,true,32,16,8,0); //?
