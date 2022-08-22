@@ -144,11 +144,29 @@ void MainWindow::decompress_from_file(QString filename, int offset, bool tiled, 
     }
     else
     {
-        for (int i=0;i<256;i++)
+        if (4 == bpp)
         {
-            palette[i].setRed(i);
-            palette[i].setGreen(i);
-            palette[i].setBlue(i);
+            for (int i=0;i<256;i++)
+            {
+                palette[i].setRed(0);
+                palette[i].setGreen(0);
+                palette[i].setBlue(0);
+            }
+            for (int i=0;i<16;i++)
+            {
+                palette[i].setRed(i*16);
+                palette[i].setGreen(i*16);
+                palette[i].setBlue(i*16);
+            }
+        }
+        if (8 == bpp)
+        {
+            for (int i=0;i<256;i++)
+            {
+                palette[i].setRed(i);
+                palette[i].setGreen(i);
+                palette[i].setBlue(i);
+            }
         }
     }
 
@@ -173,17 +191,16 @@ void MainWindow::decompress_from_file(QString filename, int offset, bool tiled, 
                             //4bpp
                             index = (cell_y*size_x+cell_x)*32+y*4+x/2;
                             if (x%2 == 1)
-                                data = (((uint8_t)output[index])&0xF)*0x10;
+                                pai.setPen(palette[((uint8_t)output[index])&0xF]);
                             else
-                                data = (((uint8_t)output[index])&0xF0);
-                            pai.setPen(QColor(data,data,data,255));
+                                pai.setPen(palette[(((uint8_t)output[index])&0xF0)>>4]);
                             pai.drawPoint(cell_x*8+x,cell_y*8+y);
                         }
                         if (8 == bpp)
                         {
                             //8bpp
                             int index = (cell_y*size_x+cell_x)*64+y*8+x;
-                            pai.setPen(QColor(output[index],output[index],output[index],255));
+                            pai.setPen(palette[(uint8_t)output[index]]);
                             pai.drawPoint(cell_x*8+x,cell_y*8+y);
                         }
                     }
@@ -210,10 +227,9 @@ void MainWindow::decompress_from_file(QString filename, int offset, bool tiled, 
                     //4bpp
                     index = y*size_x/2+x/2;
                     if (x%2 == 1)
-                        data = (((uint8_t)output[index])&0xF)*0x10;
+                        pai.setPen(palette[((uint8_t)output[index])&0xF]);
                     else
-                        data = (((uint8_t)output[index])&0xF0);
-                    pai.setPen(QColor(data,data,data,255));
+                        pai.setPen(palette[(((uint8_t)output[index])&0xF0)>>4]);
                     pai.drawPoint(x,y);
                 }
                 if (8 == bpp)
@@ -221,8 +237,6 @@ void MainWindow::decompress_from_file(QString filename, int offset, bool tiled, 
                     //8bpp
                     index = y*size_x+x;
                     pai.setPen(palette[(uint8_t)output[index]]);
-                    //color = (uint8_t)output[index];
-                    //pai.setPen(QColor(color,color,color,255));
                     pai.drawPoint(x,y);
                 }
             }
@@ -237,21 +251,16 @@ void MainWindow::decompress_from_file(QString filename, int offset, bool tiled, 
 
 void MainWindow::on_pushButton_unpach_graph_clicked()
 {
-
-
-    QString fileName("NBN.BIN");// = QFileDialog::getOpenFileName(this,tr("Open graph file"), "", tr("Graph file (*.*)"));
-
     //from logo.bin
-    //unpack_graphics(input+0x408,output,0);
-    //unpack_graphics(input+0x93E,output,0);
-    //unpack_graphics(input+0x10E9,output,0);
-    //unpack_graphics(input+0x243BC,output,0);
-    //unpack_graphics(input+0x25E73,output,0);
-    //unpack_graphics(input+0x27BEF,output,0);
+    //decompress_from_file("LOGO.BIN",0x408,true,40,13,8,0); //konami logo part 1
+    //decompress_from_file("LOGO.BIN",0x93E,true,40,13,8,0); //konami logo part 2
+    //decompress_from_file("LOGO.BIN",0x10E9,true,40,5,8,0); //konami logo part 3
+    //decompress_from_file("LOGO.BIN",0x243BC,true,40,13,8,0); //?
+    //decompress_from_file("LOGO.BIN",0x25E73,true,40,13,8,0); //?
+    //decompress_from_file("LOGO.BIN",0x27BEF,true,40,5,8,0); //?
 
-    static int shift = 0x1F498;
-    shift+=0x100;
-
+    //static int shift = 0x1F498;
+    //shift+=0x100;
 
     //from nbn.bin
     //decompress_from_file("NBN.BIN",0x2DA800+0x20,false,128,96,8,0x2DA800+0x20298); //photo x128, mio, ISO 0x1A1F820, pal  0x1A3FB98
@@ -267,35 +276,31 @@ void MainWindow::on_pushButton_unpach_graph_clicked()
     //decompress_from_file("NBN.BIN",0x2DA800+0xF688,false,128,96,8,0x2DA800+0x20898); //photo x128, miharu
     //decompress_from_file("NBN.BIN",0x2DA800+0x11340,false,128,96,8,0x2DA800+0x20098); //photo x128, rei
     //decompress_from_file("NBN.BIN",0x2DA800+0x125A8,false,128,96,8,0x2DA800+0x20A98); //photo x128, yoshio
-    //unpack_graphics(input+0x2DA800+0x14140,output);  //tiled grass with tree shadow 8bpp x320
-    //unpack_graphics(input+0x2DA800+0x18E39,output); //tiled grass with tree shadow 8bpp x320, part 2
-    //unpack_graphics(input+0x2DA800+0x1E058,output); //tiled grass with tree shadow 8bpp x320, part 3
-    //unpack_graphics(input+0x2DA800+0x21E98,output); //shiori parts, x64,...
-    //unpack_graphics(input+0x2DA800+0x23164,output); //non-tiled game logo parts, x128, x32
-    //unpack_graphics(input+0x2DA800+0x241F4,output); //shiori parts, x64,...
-    //unpack_graphics(input+0x2DA800+0x252A4,output); //non-tiled game logo parts, x128, x16
-    //unpack_graphics(input+0x2DA800+0x261E4,output); //shiori parts, x64,...
-    //unpack_graphics(input+0x2DA800+0x27378,output); //game logo parts, x16
-    //unpack_graphics(input+0x2DA800+0x28400,output); //shiori parts, x64,...
-    //unpack_graphics(input+0x2DA800+0x28EFC,output); //logo screen letters, x16
+    //decompress_from_file("NBN.BIN",0x2DA800+0x14140,true,40,13,8,0);//tiled grass with tree shadow, part 1
+    //decompress_from_file("NBN.BIN",0x2DA800+0x18E39,true,40,13,8,0);//tiled grass with tree shadow, part 2
+    //decompress_from_file("NBN.BIN",0x2DA800+0x1E058,true,40,5,8,0);//tiled grass with tree shadow, part 3
+    //decompress_from_file("NBN.BIN",0x2DA800+0x21E98,false,64,256,8,0);//shiori parts
+    //decompress_from_file("NBN.BIN",0x2DA800+0x23164,false,128,128,8,0);//non-tiled game logo parts
+    //decompress_from_file("NBN.BIN",0x2DA800+0x241F4,false,64,256,8,0);//shiori parts
+    //decompress_from_file("NBN.BIN",0x2DA800+0x252A4,false,128,128,8,0);//non-tiled game logo parts
+    //decompress_from_file("NBN.BIN",0x2DA800+0x261E4,false,64,256,8,0);//shiori parts
+    //decompress_from_file("NBN.BIN",0x2DA800+0x27378,false,16,512,8,0);//logo screen letters
+    //decompress_from_file("NBN.BIN",0x2DA800+0x28400,false,64,256,8,0);//shiori parts
+    //decompress_from_file("NBN.BIN",0x2DA800+0x28EFC,false,16,512,8,0);//logo screen letters
 
-
-    //unpack_graphics(input+0x2C800+0x2932,output,0); //tiled uniform, x320
-    //unpack_graphics(input+0x2C800+0x550E,output,0); //tiled uniform, x320
-    //unpack_graphics(input+0x2C800+0x180,output,0); //some tile symbols
+    //decompress_from_file("NBN.BIN",0x2C800+0x180,true,16,16,8,0);//some tile symbols?
+    //decompress_from_file("NBN.BIN",0x2C800+0x2932,true,40,13,8,0);//tiled uniform, part 2
+    //decompress_from_file("NBN.BIN",0x2C800+0x550E,true,40,5,8,0);//tiled uniform, part 3
 
     //from bs.bin
-    //unpack_graphics(input+0x27DF14+0xAF4,output,0); //??
+    //decompress_from_file("BS.BIN",0x27DF14+0xAF4,true,256,128,8,0);//zeros
 
     //from sys_tbl.bin
-    //unpack_graphics(input-0x86000+0x97884,output,0); //x8, x16, pictogramms for main screen and affections
-    //unpack_graphics(input-0x86000+0x98494,output,&compressed,&uncompressed); //ISO 0x8B494 4bpp, x8, x32, frame and stats
-    //unpack_graphics(input-0x86000+0x9F64C,output,0); //tiled 8bpp, ??
-    //unpack_graphics(input-0x86000+0xA0DE8,output,0); //tiled 8bpp, ??
-    //unpack_graphics(input-0x86000+0xA2548,output,0); //single tile ??
-    //unpack_graphics(input-0x86000+0xA34E8,output,0); //tiled 4bpp, 16x16, some symbols
-
-    //unpack_graphics(input,output,&compressed,&uncompressed); //
-
+    decompress_from_file("SYS_TBL.BIN",-0x86000+0x97884,false,16,512,4,0);//pictogramms for main screen and affections
+    //decompress_from_file("SYS_TBL.BIN",-0x86000+0x98494,false,32,256,4,0); //4bpp, x8, x32, frame and stats ISO 0x8B494
+    //decompress_from_file("SYS_TBL.BIN",-0x86000+0x9F64C,true,32,16,8,0); //?
+    //decompress_from_file("SYS_TBL.BIN",-0x86000+0xA0DE8,true,32,16,8,0); //?
+    //decompress_from_file("SYS_TBL.BIN",-0x86000+0xA2548,true,32,16,8,0); //zeros except 1 tile?
+    //decompress_from_file("SYS_TBL.BIN",-0x86000+0xA34E8,true,16,16,4,0); //some symbols
 
 }
