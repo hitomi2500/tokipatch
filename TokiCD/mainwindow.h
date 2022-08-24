@@ -31,7 +31,7 @@ QT_END_NAMESPACE
 
   };
 
-#define PACK_SIZES_START (1640)
+#define PACK_SIZES_START (32760)
 
 class MainWindow : public QMainWindow
 {

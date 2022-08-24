@@ -39,8 +39,8 @@ void MainWindow::unpack_graphics(char *src,char *dst, int *compressed_size,  int
   uint current_byte;
   int bits;
   int iCopyAmount;
-  uint src_index = 0;
-  uint dst_index = 0;
+  uint32_t src_index = 0;
+  uint32_t dst_index = 0;
 
   bits = 1;
   do {
@@ -288,19 +288,32 @@ void MainWindow::on_pushButton_unpach_graph_clicked()
     //decompress_from_file("NBN.BIN",0x2DA800+0x28400,false,64,256,8,0);//shiori parts
     //decompress_from_file("NBN.BIN",0x2DA800+0x28EFC,false,16,512,8,0);//logo screen letters
 
-    //decompress_from_file("NBN.BIN",0x2C800+0x180,true,16,16,8,0);//some tile symbols?
-    //decompress_from_file("NBN.BIN",0x2C800+0x2932,true,40,13,8,0);//tiled uniform, part 2
-    //decompress_from_file("NBN.BIN",0x2C800+0x550E,true,40,5,8,0);//tiled uniform, part 3
+    //decompress_from_file("NBN.BIN",0x2C800+0x180,true,2,64,8,0);// name ent some tile symbols for
+    decompress_from_file("NBN.BIN",0x2C800+0x180,false,16,512,4,0);// name ent some tile symbols for
+    //decompress_from_file("NBN.BIN",0x2C800+0xAF4,true,40,13,8,0);//name ent background shiori, part 1
+    //decompress_from_file("NBN.BIN",0x2C800+0x2932,true,40,13,8,0);//name ent background shiori, part 2
+    //decompress_from_file("NBN.BIN",0x2C800+0x550E,true,40,5,8,0);//name ent background shiori, part 3
+
+
 
     //from bs.bin
-    //decompress_from_file("BS.BIN",0x27DF14+0xAF4,true,256,128,8,0);//zeros
+    //decompress_from_file("BS.BIN",0x27DF14+0xAF4,true,40,40,8,0);//zeros
+    //decompress_from_file("BS.BIN",0x2C800+0xAF4,true,40,40,8,0);//?
+    //decompress_from_file("BS.BIN",0x8C2000+0xE8208,true,40,13,8,0);// name ent backgound part 1,  ISO 0xAA1208
+    //decompress_from_file("BS.BIN",0x8C2000+0xEAA3A,true,40,13,8,0);// name ent backgound part 2,  ISO 0xAA3A3A
+    //decompress_from_file("BS.BIN",0x8C2000+0xEE7EA,true,40,5,8,0);// name ent backgound part 3,  ISO 0xAA77EA
 
     //from sys_tbl.bin
-    decompress_from_file("SYS_TBL.BIN",-0x86000+0x97884,false,16,512,4,0);//pictogramms for main screen and affections ISO 0x8A884
+    //decompress_from_file("SYS_TBL.BIN",-0x86000+0x97884,false,16,512,4,0);//pictogramms for main screen and affections ISO 0x8A884
     //decompress_from_file("SYS_TBL.BIN",-0x86000+0x98494,false,32,256,4,0); //4bpp, x8, x32, frame and stats ISO 0x8B494
     //decompress_from_file("SYS_TBL.BIN",-0x86000+0x9F64C,true,32,16,8,0); //?
     //decompress_from_file("SYS_TBL.BIN",-0x86000+0xA0DE8,true,32,16,8,0); //?
     //decompress_from_file("SYS_TBL.BIN",-0x86000+0xA2548,true,32,16,8,0); //zeros except 1 tile?
     //decompress_from_file("SYS_TBL.BIN",-0x86000+0xA34E8,true,16,16,4,0); //some symbols
+
+
+    //from name_ent.bin
+
+
 
 }
