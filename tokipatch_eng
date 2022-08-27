@@ -1032,6 +1032,10 @@
 <replace sector="13802" offset="198" filename="NAME_ENT.EXN" size="10" old="835483568358835a835c" new="a1a2a3a4a50000000000" oldbin="サシスセソ" newbin="｡｢｣､･     " comment="Name entry alphabet & others">
 <replace sector="13802" offset="1a4" filename="NAME_ENT.EXN" size="10" old="834a834c834e83508352" new="e0e1e2e3e4e500000000" oldbin="カキクケコ" newbin="珮粤蒟    " comment="Name entry alphabet & others">
 <replace sector="13802" offset="1b0" filename="NAME_ENT.EXN" size="10" old="83418343834583478349" new="c0c1c2c3c4c500000000" oldbin="アイウエオ" newbin="ﾀﾁﾂﾃﾄﾅ    " comment="Name entry alphabet & others">
+<replace sector="13804" offset="280" filename="NAME_ENT.EXN" size="2" old="366c" new="0009" oldasm="add r6,r6" newasm="nop" comment="do not 2x player index">
+<replace sector="13804" offset="302" filename="NAME_ENT.EXN" size="2" old="366c" new="0009" oldasm="add r6,r6" newasm="nop" comment="storing name as 1-char, not 2-char">
+<replace sector="13804" offset="336" filename="NAME_ENT.EXN" size="2" old="333c" new="0009" oldasm="add r3,r3" newasm="nop" comment="fetching from 1-char ascii instead of sjis hiragana">
+<replace sector="13804" offset="33e" filename="NAME_ENT.EXN" size="4" old="2610d013" new="a0c62610" oldasm="_mov.b r1,@r6;mov.l pc+13" newasm="bra pc+c6;_mov.b r1,@r6" comment="fetching from 1-char ascii instead of sjis hiragana">
 <replace sector="13812" offset="600" filename="NAME_ENT.EXN" size="6" old="8f978e718260" new="4769726c0241" oldbin="女子Ａ" newbin="GirlA" comment="Prologue girls names">
 <replace sector="13812" offset="608" filename="NAME_ENT.EXN" size="6" old="8f978e718261" new="4769726c0242" oldbin="女子Ｂ" newbin="GirlB" comment="Prologue girls names">
 <replace sector="13829" offset="3ec" filename="NAME_ENT.EXN" size="7" old="8c4b94a8000000" new="4b757761626120" oldbin="桑畑   " newbin="Kuwaba " comment="Default player's names">
@@ -1187,4 +1191,4 @@
 <replace sector="13841" offset="4e4" filename="NAME_ENT.EXN" size="49" old="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" new="22490264756e6e6f0277686f0263616d650275700277697468200269742c026d616b6573026d6502656e76790269742e22" oldbin="                                                 " newbin=""Idunnowhocameupwith it,makesmeenvyit."" comment="Prologue script">
 <replace sector="13841" offset="518" filename="NAME_ENT.EXN" size="46" old="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" new="22546865026c6567656e642e2e2e0249027365652c2002696e0274686174026361736502666f72026d652e2e2e22" oldbin="                                              " newbin=""Thelegend...Isee, inthatcaseforme..."" comment="Prologue script">
 <replace sector="13841" offset="548" filename="NAME_ENT.EXN" size="57" old="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" new="22416e6402736f2c026d7902686f706566756c02616e642002616e78696f75730268696768027363686f6f6c206c69666502626567756e2e22" oldbin="                                                         " newbin=""Andso,myhopefuland anxioushighschool lifebegun."" comment="Prologue script">
-<comment total_bytes_changed="22333" old_patch_lines="1188" new_patch_lines="0">
+<comment total_bytes_changed="22343" old_patch_lines="1192" new_patch_lines="0">
