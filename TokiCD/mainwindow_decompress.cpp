@@ -55,7 +55,7 @@ void MainWindow::unpack_graphics(char *src,char *dst, int *compressed_size,  int
         }
       GET_NEXT_BIT
       if (current_bit == 1) {
-          //small backstream multiple repeat opcode (11), link 8-bit in datastream, size 2-bit in command stream, range 2 to 5
+          //small backstream repeat opcode (11), link 8-bit in datastream, size 2-bit in command stream, range 2 to 5
           GET_NEXT_BIT
           iCopyAmount = 2 + current_bit*2;
           GET_NEXT_BIT
@@ -67,7 +67,7 @@ void MainWindow::unpack_graphics(char *src,char *dst, int *compressed_size,  int
           }
       }
       else {
-          //big backstream multiple repeat opcode (10), link 12 bit in datastream, size 8 bit in datastream,
+          //big backstream repeat opcode (10), link 12 bit in datastream, size 8 bit in datastream,
           backstream = ((int)src[src_index] & 0xffU) << 8 | ((int)src[src_index+1] & 0xffU); //12-bit backstream link ( 4 LSB ignored)
           if (backstream == 0) {
               if (compressed_size != NULL)
