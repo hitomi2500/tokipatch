@@ -1036,6 +1036,17 @@
 <replace sector="13802" offset="198" iso="1af5198" filename="NAME_ENT.EXN" size="10" old="835483568358835a835c" new="a1a2a3a4a50000000000" oldbin="サシスセソ" newbin="｡｢｣､･     " comment="Name entry alphabet & others">
 <replace sector="13802" offset="1a4" iso="1af51a4" filename="NAME_ENT.EXN" size="10" old="834a834c834e83508352" new="e0e1e2e3e4e500000000" oldbin="カキクケコ" newbin="珮粤蒟    " comment="Name entry alphabet & others">
 <replace sector="13802" offset="1b0" iso="1af51b0" filename="NAME_ENT.EXN" size="10" old="83418343834583478349" new="c0c1c2c3c4c500000000" oldbin="アイウエオ" newbin="ﾀﾁﾂﾃﾄﾅ    " comment="Name entry alphabet & others">
+<replace sector="13802" offset="4cb" iso="1af54cb" filename="NAME_ENT.EXN" size="1" old="02" new="05" comment="Name entry cursor movement">
+<replace sector="13802" offset="4d5" iso="1af54d5" filename="NAME_ENT.EXN" size="1" old="0c" new="17" comment="Name entry cursor movement">
+<replace sector="13802" offset="4e5" iso="1af54e5" filename="NAME_ENT.EXN" size="1" old="05" new="0b" comment="Name entry cursor movement">
+<replace sector="13802" offset="4ef" iso="1af54ef" filename="NAME_ENT.EXN" size="1" old="0c" new="17" comment="Name entry cursor movement">
+<replace sector="13802" offset="4f7" iso="1af54f7" filename="NAME_ENT.EXN" size="1" old="0a" new="15" comment="Name entry cursor movement">
+<replace sector="13802" offset="503" iso="1af5503" filename="NAME_ENT.EXN" size="1" old="0c" new="17" comment="Name entry cursor movement">
+<replace sector="13802" offset="529" iso="1af5529" filename="NAME_ENT.EXN" size="1" old="02" new="05" comment="Name entry cursor movement">
+<replace sector="13802" offset="559" iso="1af5559" filename="NAME_ENT.EXN" size="1" old="02" new="05" comment="Name entry cursor movement">
+<replace sector="13802" offset="56f" iso="1af556f" filename="NAME_ENT.EXN" size="1" old="03" new="06" comment="Name entry cursor movement">
+<replace sector="13802" offset="58f" iso="1af558f" filename="NAME_ENT.EXN" size="1" old="04" new="09" comment="Name entry cursor movement">
+<replace sector="13802" offset="5a5" iso="1af55a5" filename="NAME_ENT.EXN" size="1" old="06" new="0c" comment="Name entry cursor movement">
 <replace sector="13804" offset="280" iso="1af6280" filename="NAME_ENT.EXN" size="2" old="366c" new="0009" oldasm="add r6,r6" newasm="nop" comment="do not 2x player index">
 <replace sector="13804" offset="302" iso="1af6302" filename="NAME_ENT.EXN" size="2" old="366c" new="0009" oldasm="add r6,r6" newasm="nop" comment="storing name as 1-char, not 2-char">
 <replace sector="13804" offset="33e" iso="1af633e" filename="NAME_ENT.EXN" size="4" old="2610d013" new="a0c62610" oldasm="_mov.b r1,@r6;mov.l pc+13" newasm="bra pc+c6;_mov.b r1,@r6" comment="fetching from 1-char ascii instead of sjis hiragana">
@@ -1196,4 +1207,4 @@
 <replace sector="13841" offset="4e4" iso="1b08ce4" filename="NAME_ENT.EXN" size="49" old="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" new="22490264756e6e6f0277686f0263616d650275700277697468200269742c026d616b6573026d6502656e76790269742e22" oldbin="                                                 " newbin=""Idunnowhocameupwith it,makesmeenvyit."" comment="Prologue script">
 <replace sector="13841" offset="518" iso="1b08d18" filename="NAME_ENT.EXN" size="46" old="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" new="22546865026c6567656e642e2e2e0249027365652c2002696e0274686174026361736502666f72026d652e2e2e22" oldbin="                                              " newbin=""Thelegend...Isee, inthatcaseforme..."" comment="Prologue script">
 <replace sector="13841" offset="548" iso="1b08d48" filename="NAME_ENT.EXN" size="57" old="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" new="22416e6402736f2c026d7902686f706566756c02616e642002616e78696f75730268696768027363686f6f6c206c69666502626567756e2e22" oldbin="                                                         " newbin=""Andso,myhopefuland anxioushighschool lifebegun."" comment="Prologue script">
-<comment total_bytes_changed="22351" old_patch_lines="1198" new_patch_lines="0">
+<comment total_bytes_changed="22362" old_patch_lines="1209" new_patch_lines="0">
