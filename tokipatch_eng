@@ -1060,8 +1060,21 @@
 <replace sector="13805" offset="39b" iso="1af6b9b" filename="NAME_ENT.EXN" size="1" old="06" new="0c" comment="Name entry line edit">
 <replace sector="13805" offset="39d" iso="1af6b9d" filename="NAME_ENT.EXN" size="1" old="0a" new="14" comment="Name entry line edit">
 <replace sector="13805" offset="3f7" iso="1af6bf7" filename="NAME_ENT.EXN" size="1" old="0a" new="14" comment="Name entry line edit">
+<replace sector="13806" offset="679" iso="1af7679" filename="NAME_ENT.EXN" size="1" old="03" new="06" comment="Name entry line edit">
+<replace sector="13806" offset="72b" iso="1af772b" filename="NAME_ENT.EXN" size="1" old="02" new="05" comment="Name entry line edit">
+<replace sector="13808" offset="9b" iso="1af809b" filename="NAME_ENT.EXN" size="1" old="02" new="05" comment="Name entry line edit">
 <replace sector="13809" offset="5fd" iso="1af8dfd" filename="NAME_ENT.EXN" size="1" old="0e" new="07" Setting interval for VDP1 text to 7>
 <replace sector="13810" offset="3d9" iso="1af93d9" filename="NAME_ENT.EXN" size="1" old="10" new="08" Setting interval for VDP1 text to 8>
+<replace sector="13810" offset="747" iso="1af9747" filename="NAME_ENT.EXN" size="1" old="02" new="05" comment="Name entry line edit">
+<replace sector="13810" offset="75d" iso="1af975d" filename="NAME_ENT.EXN" size="1" old="02" new="05" comment="Name entry line edit">
+<replace sector="13810" offset="773" iso="1af9773" filename="NAME_ENT.EXN" size="1" old="04" new="09" comment="Name entry line edit">
+<replace sector="13811" offset="111" iso="1af9911" filename="NAME_ENT.EXN" size="1" old="02" new="05" comment="Name entry line edit">
+<replace sector="13811" offset="167" iso="1af9967" filename="NAME_ENT.EXN" size="1" old="02" new="05" comment="Name entry line edit">
+<replace sector="13811" offset="347" iso="1af9b47" filename="NAME_ENT.EXN" size="1" old="03" new="06" comment="Name entry line edit">
+<replace sector="13811" offset="417" iso="1af9c17" filename="NAME_ENT.EXN" size="1" old="0c" new="17" comment="Name entry line edit">
+<replace sector="13811" offset="41b" iso="1af9c1b" filename="NAME_ENT.EXN" size="1" old="03" new="06" comment="Name entry line edit">
+<replace sector="13811" offset="41d" iso="1af9c1d" filename="NAME_ENT.EXN" size="1" old="05" new="0a" comment="Name entry line edit">
+<replace sector="13811" offset="477" iso="1af9c77" filename="NAME_ENT.EXN" size="1" old="05" new="0b" comment="Name entry line edit">
 <replace sector="13812" offset="600" iso="1afa600" filename="NAME_ENT.EXN" size="6" old="8f978e718260" new="4769726c0241" oldbin="—Žq‚`" newbin="GirlA" comment="Prologue girls names">
 <replace sector="13812" offset="608" iso="1afa608" filename="NAME_ENT.EXN" size="6" old="8f978e718261" new="4769726c0242" oldbin="—Žq‚a" newbin="GirlB" comment="Prologue girls names">
 <replace sector="13829" offset="3ec" iso="1b02bec" filename="NAME_ENT.EXN" size="7" old="8c4b94a8000000" new="4b757761626120" oldbin="ŒK”¨   " newbin="Kuwaba " comment="Default player's names">
@@ -1217,4 +1230,4 @@
 <replace sector="13841" offset="4e4" iso="1b08ce4" filename="NAME_ENT.EXN" size="49" old="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" new="22490264756e6e6f0277686f0263616d650275700277697468200269742c026d616b6573026d6502656e76790269742e22" oldbin="                                                 " newbin=""Idunnowhocameupwith it,makesmeenvyit."" comment="Prologue script">
 <replace sector="13841" offset="518" iso="1b08d18" filename="NAME_ENT.EXN" size="46" old="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" new="22546865026c6567656e642e2e2e0249027365652c2002696e0274686174026361736502666f72026d652e2e2e22" oldbin="                                              " newbin=""Thelegend...Isee, inthatcaseforme..."" comment="Prologue script">
 <replace sector="13841" offset="548" iso="1b08d48" filename="NAME_ENT.EXN" size="57" old="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" new="22416e6402736f2c026d7902686f706566756c02616e642002616e78696f75730268696768027363686f6f6c206c69666502626567756e2e22" oldbin="                                                         " newbin=""Andso,myhopefuland anxioushighschool lifebegun."" comment="Prologue script">
-<comment total_bytes_changed="22372" old_patch_lines="1214" new_patch_lines="5">
+<comment total_bytes_changed="22385" old_patch_lines="1232" new_patch_lines="0">
