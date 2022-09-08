@@ -15,7 +15,8 @@ SOURCES += \
     mainwindow_compress.cpp \
     mainwindow_decompress.cpp \
     mainwindow_draw_font.cpp \
-    mainwindow_process_cd.cpp
+    mainwindow_process_cd.cpp \
+    mainwindow_script_pack.cpp
 
 HEADERS += \
     mainwindow.h
