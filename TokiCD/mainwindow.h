@@ -63,6 +63,10 @@ private slots:
 
     void on_pushButton_update_name_ent_from_clicked();
 
+    void on_pushButton_script_word_bin_clicked();
+
+    void on_pushButton_script_word_bin_update_clicked();
+
 private:
     Ui::MainWindow *ui;
     QList <iso_directory_record> filelist;
