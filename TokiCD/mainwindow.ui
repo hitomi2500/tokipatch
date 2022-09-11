@@ -220,6 +220,32 @@
          <string>TextLabel</string>
         </property>
        </widget>
+       <widget class="QPushButton" name="pushButton_get_2char_stats">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>50</y>
+          <width>111</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Get 2 char stats</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_get_3char_stats">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>100</y>
+          <width>111</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Get 3 char stats</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>

@@ -53,12 +53,15 @@ void MainWindow::on_pushButton_4_clicked()
 
 void MainWindow::on_pushButton_5_clicked()
 {
-    QFile cd_file1("toki_f.bin");
+    QString _in_filename = QFileDialog::getOpenFileName(this,tr("Open Bin"), "", tr("Bin Files (*.bin)"));
+    QFile cd_file1(_in_filename);//"toki_f.bin");
     cd_file1.open(QIODevice::ReadOnly);
     QByteArray b1 = cd_file1.readAll();
     cd_file1.close();
 
-    QFile iso_file1("toki_f.iso");
+    _in_filename.append(".iso");
+
+    QFile iso_file1(_in_filename);//"toki_f.iso");
     iso_file1.open(QIODevice::WriteOnly|QIODevice::Truncate);
     for (int i=0;i<b1.size()/2352;i++)
     {

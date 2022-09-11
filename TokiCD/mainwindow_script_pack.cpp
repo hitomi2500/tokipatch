@@ -540,6 +540,69 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
         Englishes[i].replace("Quincy",QByteArray(1,12));
     }
 
+    QList<QByteArray> tokens3;
+    tokens3.append("you");
+    tokens3.append("the");
+    tokens3.append("hat");
+    tokens3.append("ing");
+    tokens3.append("thi");
+    tokens3.append("ome");
+    tokens3.append("tha");
+    tokens3.append("was");
+    tokens3.append("all");
+    tokens3.append("hin");
+    tokens3.append("her");
+    tokens3.append("ell");
+    tokens3.append("ood");
+    tokens3.append("for");
+    tokens3.append("hen");
+    tokens3.append("ere");
+
+    QList<QByteArray> tokens2;
+    tokens2.append("th");
+    tokens2.append("ou");
+    tokens2.append("in");
+    tokens2.append("ha");
+    tokens2.append("he");
+    tokens2.append("it");
+    tokens2.append("re");
+    tokens2.append("at");
+    tokens2.append("er");
+    tokens2.append("me");
+    tokens2.append("yo");
+    tokens2.append("to");
+    tokens2.append("on");
+    tokens2.append("ll");
+    tokens2.append("an");
+    tokens2.append("ng");
+
+    tokens2.append("en");
+    tokens2.append("ea");
+    tokens2.append("is");
+    tokens2.append("go");
+    tokens2.append("hi");
+    tokens2.append("as");
+    tokens2.append("or");
+    tokens2.append("oo");
+    tokens2.append("ar");
+    tokens2.append("es");
+    tokens2.append("et");
+    tokens2.append("wa");
+    tokens2.append("al");
+    tokens2.append("ti");
+    tokens2.append("te");
+    tokens2.append("st");
+
+    //token-comress translated file
+    for (int i=0; i< Englishes.size(); i++)
+    {
+        for (int j=0;j<16;j++)
+            Englishes[i].replace(tokens3[j],QByteArray(1,16+j));
+        for (int j=0;j<32;j++)
+            Englishes[i].replace(tokens2[j],QByteArray(1,224+j));
+    }
+
+
     int diff;
     int iFits=0;
     iChapter=0;
@@ -596,4 +659,166 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
         _out_file.write("\r\n");
     }
     _out_file.close();
+}
+
+
+void MainWindow::on_pushButton_get_2char_stats_clicked()
+{
+    //open translated file
+    QFile _in_file_e(QString("WORD_english.txt"));
+    QList<QByteArray> Englishes;
+    _in_file_e.open(QIODevice::ReadOnly);
+    while(false == _in_file_e.atEnd())
+        Englishes.append(_in_file_e.readLine());
+
+    //replace tokens in translated file
+    for (int i=0; i< Englishes.size(); i++)
+    {
+        Englishes[i].replace("Pantagruelle",QByteArray(1,5));
+        Englishes[i].replace("Gargantua",QByteArray(1,6));
+        Englishes[i].replace("Alouette",QByteArray(1,7));
+        Englishes[i].replace("Frederique",QByteArray(1,8));
+        Englishes[i].replace("Mezzanine",QByteArray(1,9));
+        Englishes[i].replace("Marseille",QByteArray(1,10));
+        Englishes[i].replace("Patricia",QByteArray(1,11));
+        Englishes[i].replace("Quincy",QByteArray(1,12));
+    }
+
+    //now get the 2-chars frequencies
+    QList<int> _2_char_sizes;
+    QList<QByteArray> _2_chars;
+    QByteArray test;
+    int score=0;
+    for (uint8_t c = 65; c<123; c++)
+    {
+        for (uint8_t c2 = 65;c2<123;c2++)
+        {
+            if ((c == 0x0a) || (c == 0x0d)  || (c2 == 0x0a)  || (c2 == 0x0d) )
+                continue;
+            score=0;
+            test.clear();
+            test.append(QByteArray(1,c));
+            test.append(QByteArray(1,c2));
+            for (int en=0;en<Englishes.size(); en++)
+            {
+                QByteArray copy = Englishes[en];
+                while (copy.indexOf(test) > 0)
+                {
+                    score++;
+                    copy = copy.mid(copy.indexOf(test)+2);
+                }
+            }
+            if (score>0)
+            {
+                _2_char_sizes.append(score);
+                _2_chars.append(test);
+            }
+        }
+    }
+    //sorting
+    for (int i=0;i<_2_char_sizes.size();i++)
+    {
+        for (int j=i+1;j<_2_char_sizes.size();j++)
+        {
+            if (_2_char_sizes.at(j)>_2_char_sizes.at(i))
+            {
+                _2_char_sizes.swap(i,j);
+                _2_chars.swap(i,j);
+            }
+        }
+    }
+    //saving
+    QFile _out_file;
+    _out_file.setFileName(QString("WORD_2chars_stat.TXT"));
+    _out_file.open(QIODevice::WriteOnly);
+    for (int i=0;i<_2_char_sizes.size();i++)
+    {
+        _out_file.write(QString("%1 : %2").arg(_2_char_sizes[i]).arg(QString::fromLatin1(_2_chars[i])).toLatin1());
+        _out_file.write("\r\n");
+    }
+    _out_file.close();
+
+}
+
+
+void MainWindow::on_pushButton_get_3char_stats_clicked()
+{
+    //open translated file
+    QFile _in_file_e(QString("WORD_english.txt"));
+    QList<QByteArray> Englishes;
+    _in_file_e.open(QIODevice::ReadOnly);
+    while(false == _in_file_e.atEnd())
+        Englishes.append(_in_file_e.readLine());
+
+    //replace tokens in translated file
+    for (int i=0; i< Englishes.size(); i++)
+    {
+        Englishes[i].replace("Pantagruelle",QByteArray(1,5));
+        Englishes[i].replace("Gargantua",QByteArray(1,6));
+        Englishes[i].replace("Alouette",QByteArray(1,7));
+        Englishes[i].replace("Frederique",QByteArray(1,8));
+        Englishes[i].replace("Mezzanine",QByteArray(1,9));
+        Englishes[i].replace("Marseille",QByteArray(1,10));
+        Englishes[i].replace("Patricia",QByteArray(1,11));
+        Englishes[i].replace("Quincy",QByteArray(1,12));
+    }
+
+    //now get the 2-chars frequencies
+    QList<int> _3_char_sizes;
+    QList<QByteArray> _3_chars;
+    QByteArray test;
+    int score=0;
+    for (uint8_t c = 65; c<123; c++)
+    {
+        for (uint8_t c2 = 65;c2<123;c2++)
+        {
+            for (uint8_t c3 = 65;c3<123;c3++)
+            {
+                /*if ((c == 0x0a) || (c == 0x0d)  || (c2 == 0x0a)  || (c2 == 0x0d) || (c3 == 0x0a)  || (c3 == 0x0d)  )
+                    continue;*/
+                score=0;
+                test.clear();
+                test.append(QByteArray(1,c));
+                test.append(QByteArray(1,c2));
+                test.append(QByteArray(1,c3));
+                for (int en=0;en<Englishes.size(); en++)
+                {
+                    QByteArray copy = Englishes[en];
+                    while (copy.indexOf(test) > 0)
+                    {
+                        score++;
+                        copy = copy.mid(copy.indexOf(test)+3);
+                    }
+                }
+                if (score>0)
+                {
+                    _3_char_sizes.append(score);
+                    _3_chars.append(test);
+                }
+            }
+        }
+    }
+    //sorting
+    for (int i=0;i<_3_char_sizes.size();i++)
+    {
+        for (int j=i+1;j<_3_char_sizes.size();j++)
+        {
+            if (_3_char_sizes.at(j)>_3_char_sizes.at(i))
+            {
+                _3_char_sizes.swap(i,j);
+                _3_chars.swap(i,j);
+            }
+        }
+    }
+    //saving
+    QFile _out_file;
+    _out_file.setFileName(QString("WORD_3chars_stat.TXT"));
+    _out_file.open(QIODevice::WriteOnly);
+    for (int i=0;i<_3_char_sizes.size();i++)
+    {
+        _out_file.write(QString("%1 : %2").arg(_3_char_sizes[i]).arg(QString::fromLatin1(_3_chars[i])).toLatin1());
+        _out_file.write("\r\n");
+    }
+    _out_file.close();
+
 }
