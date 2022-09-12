@@ -5,6 +5,7 @@
 #include <QPicture>
 #include <QPainter>
 #include <QTextCodec>
+#include <QMessageBox>
 
 void MainWindow::on_pushButton_update_name_ent_from_clicked()
 {
@@ -391,12 +392,15 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     QList<QByteArray> undecoded;
     QList<int> markers;
     QList<int> offsets;
+    QList<int> markers_pointers;
     QList<int> chapters;
     QList<int> chapter_sizes;
+    QList<int> chapter_offsets;
     QList<int> chapter_english_sizes;
     int LinesInBlock;
     int iChaptersNumber;
     bool bPostfix;
+    QFile _out_file;
 
     QTextCodec * codec = QTextCodec::codecForName("Shift-JIS");
     QTextDecoder * decoder = codec->makeDecoder();
@@ -467,7 +471,10 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
         {
             //memory address
             if (decoded.size() > markers.size())
+            {
                 markers.append((unsigned char)_in_data.at(iPos)*0x1000000 + (unsigned char)_in_data.at(iPos+1)*0x10000 + (unsigned char)_in_data.at(iPos+2)*0x100 + (unsigned char)_in_data.at(iPos+3));
+                markers_pointers.append(iPos);
+            }
             iPos+=4;
         }
         else if ( (iPos == 0x75804)||(iPos == 0x8AC28)||(iPos == 0xAF8A0)||(iPos == 0xAFF44)||(iPos == 0xB0570))
@@ -488,14 +495,48 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
         }
     }
 
-    while(markers.size()<decoded.size())
-        markers.append(0);
+    if (markers.size()!=decoded.size())
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Markers and decoded size mismatch.");
+        msgBox.exec();
+    }
 
-    //detect chapters by offset change
+    //searching marker links in input file
+    /*int last_search;
+    int search_res;
+    for (int i=0; i<markers.size(); i++)
+    {
+        QByteArray search;
+        search.append(QByteArray(1,markers[i]>>24));
+        search.append(QByteArray(1,markers[i]>>16));
+        search.append(QByteArray(1,markers[i]>>8));
+        search.append(QByteArray(1,markers[i]>>0));
+        if (i==0)
+        {
+            search_res = _in_data.indexOf(search);
+
+        }
+        else
+        {
+            search_res = _in_data.mid(last_search).indexOf(search);
+        }
+        last_search = search_res;
+        if (search_res <= 0)
+        {
+            QMessageBox msgBox;
+            msgBox.setText(QString("Can't find marker at number %1").arg(i));
+            msgBox.exec();
+        }
+        else
+            markers_links.append(search_res);
+    }*/
+
+    //detect chapters by offset change or hole between data
     iChapter = 0;
     iChapterOffset = 0;
     iChaptersNumber = 0;
-    for (i=0;i<decoded.length();i++)
+    for (i=0;i<undecoded.length();i++)
     {
         int diff = offsets.at(i)-markers.at(i)+0x205000;
         if (diff != iChapterOffset)
@@ -503,9 +544,28 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
             iChapter++;
             iChapterOffset = diff;
         }
+        else if (i> 0)
+        {
+            int hole = offsets.at(i)-undecoded[i-1].length()-offsets.at(i-1);
+            if (hole > 4)
+            {
+                    iChapter++;
+                    iChapterOffset = diff;
+            }
+        }
+        chapter_offsets.append(diff);
         chapters.append(iChapter);
     }
     iChaptersNumber = iChapter+1;
+
+    _out_file.setFileName(QString("WORD_chapters.TXT"));
+    _out_file.open(QIODevice::WriteOnly);
+    for (i=0;i<chapters.size();i++)
+    {
+        _out_file.write(QString("%1 : %2").arg(i).arg(chapters[i]).toLatin1());
+        _out_file.write("\r\n");
+    }
+    _out_file.close();
 
 
     //calculate chapter sizes
@@ -602,6 +662,11 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
             Englishes[i].replace(tokens2[j],QByteArray(1,224+j));
     }
 
+    //replace endings in english lines with zeros
+    for (int i=0; i< Englishes.size(); i++)
+    {
+        Englishes[i].replace("\r\n",QByteArray(1,0));
+    }
 
     int diff;
     int iFits=0;
@@ -632,12 +697,34 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
        if (chapter_english_sizes[ch] <= chapter_sizes[ch]) iChapterFits++;
     }
 
-
     ui->label_wordbin_insert_stats->setText(QString("Size fits : %1, chapters fit: %2 out of %3").arg(iFits).arg(iChapterFits).arg(iChaptersNumber));
 
-    //save results
+    //inserting english lines, chapter 1 only for now
+    //for (int ch=0;ch<iChaptersNumber;ch++)
+    for (int ch=0;ch<1;ch++)
+    {
+        //get the chapter offset in sjis
+        int iChapterNode = 0;
+        while (chapters[iChapterNode]!=ch)
+            iChapterNode++;
+        int iDataPtr = offsets[iChapterNode];
+        //now do insert for each line in chapter
+        while ( (chapters[iChapterNode] == ch) )// && (iChapterNode<37) )
+        {
+            _in_data.replace(iDataPtr,Englishes[iChapterNode].length(),Englishes[iChapterNode]);//update data
+            int iOffset = iDataPtr + chapter_offsets[iChapterNode];
+            char * p8 = (char*)&iOffset;
+            _in_data.replace(markers_pointers[iChapterNode],1,QByteArray(1,p8[3]));//update pointer
+            _in_data.replace(markers_pointers[iChapterNode]+1,1,QByteArray(1,p8[2]));//update pointer
+            _in_data.replace(markers_pointers[iChapterNode]+2,1,QByteArray(1,p8[1]));//update pointer
+            _in_data.replace(markers_pointers[iChapterNode]+3,1,QByteArray(1,p8[0]));//update pointer
+            iDataPtr += Englishes[iChapterNode].length();
+            iChapterNode++;
+        }
+    }
 
-    QFile _out_file(QString("WORD_dump.TXT"));
+    //save results
+    _out_file.setFileName(QString("WORD_dump.TXT"));
     _out_file.open(QIODevice::WriteOnly);
     for (i=0;i<decoded.length();i++)
     {
@@ -658,6 +745,11 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
             _out_file.write(QString("%1 :ERROR:%2:%3").arg(i).arg(chapter_english_sizes[i]).arg(chapter_sizes[i]).toLatin1());
         _out_file.write("\r\n");
     }
+    _out_file.close();
+
+    _out_file.setFileName(QString("WORD_patched.BIN"));
+    _out_file.open(QIODevice::WriteOnly);
+    _out_file.write(_in_data);
     _out_file.close();
 }
 
