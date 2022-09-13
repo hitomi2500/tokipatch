@@ -390,15 +390,19 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
 
     QList<QString> decoded;
     QList<QByteArray> undecoded;
-    QList<int> markers;
+    QList<int> line_pointers;
+    QList<int> line_pointers_pointers;
     QList<int> offsets;
-    QList<int> markers_pointers;
+    QList<int> subchapter_pointers;
+    QList<int> subchapter_pointers_pointers;
     QList<int> chapters;
+    QList<int> subchapters;
     QList<int> chapter_sizes;
     QList<int> chapter_offsets;
     QList<int> chapter_english_sizes;
     int LinesInBlock;
     int iChaptersNumber;
+    int iSubchaptersNumber;
     bool bPostfix;
     QFile _out_file;
 
@@ -469,11 +473,18 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
         }
         else if ( ((unsigned char)(_in_data.at(iPos)) == 0x00) && ((unsigned char)(_in_data.at(iPos+1)) >= 0x20) && ((unsigned char)(_in_data.at(iPos+1)) <= 0x28)  )
         {
-            //memory address
-            if (decoded.size() > markers.size())
+            //memory address pointers
+            if (decoded.size() > line_pointers.size())
             {
-                markers.append((unsigned char)_in_data.at(iPos)*0x1000000 + (unsigned char)_in_data.at(iPos+1)*0x10000 + (unsigned char)_in_data.at(iPos+2)*0x100 + (unsigned char)_in_data.at(iPos+3));
-                markers_pointers.append(iPos);
+                line_pointers.append((unsigned char)_in_data.at(iPos)*0x1000000 + (unsigned char)_in_data.at(iPos+1)*0x10000 + (unsigned char)_in_data.at(iPos+2)*0x100 + (unsigned char)_in_data.at(iPos+3));
+                line_pointers_pointers.append(iPos);
+            }
+            else
+            {
+                //some pointer, but not line pointer
+                //maybe a subchapter pointer?
+                subchapter_pointers.append((unsigned char)_in_data.at(iPos)*0x1000000 + (unsigned char)_in_data.at(iPos+1)*0x10000 + (unsigned char)_in_data.at(iPos+2)*0x100 + (unsigned char)_in_data.at(iPos+3));
+                subchapter_pointers_pointers.append(iPos);
             }
             iPos+=4;
         }
@@ -495,66 +506,38 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
         }
     }
 
-    if (markers.size()!=decoded.size())
+    if (line_pointers.size()!=decoded.size())
     {
         QMessageBox msgBox;
-        msgBox.setText("Markers and decoded size mismatch.");
+        msgBox.setText("line_pointers and decoded size mismatch.");
         msgBox.exec();
     }
 
-    //searching marker links in input file
-    /*int last_search;
-    int search_res;
-    for (int i=0; i<markers.size(); i++)
-    {
-        QByteArray search;
-        search.append(QByteArray(1,markers[i]>>24));
-        search.append(QByteArray(1,markers[i]>>16));
-        search.append(QByteArray(1,markers[i]>>8));
-        search.append(QByteArray(1,markers[i]>>0));
-        if (i==0)
-        {
-            search_res = _in_data.indexOf(search);
-
-        }
-        else
-        {
-            search_res = _in_data.mid(last_search).indexOf(search);
-        }
-        last_search = search_res;
-        if (search_res <= 0)
-        {
-            QMessageBox msgBox;
-            msgBox.setText(QString("Can't find marker at number %1").arg(i));
-            msgBox.exec();
-        }
-        else
-            markers_links.append(search_res);
-    }*/
-
-    //detect chapters by offset change or hole between data
+    //detect chapters by offset change and subchapters by hole between data
     iChapter = 0;
     iChapterOffset = 0;
     iChaptersNumber = 0;
+    iSubchaptersNumber = 0;
     for (i=0;i<undecoded.length();i++)
     {
-        int diff = offsets.at(i)-markers.at(i)+0x205000;
+        int diff = offsets.at(i)-line_pointers.at(i)+0x205000;
         if (diff != iChapterOffset)
         {
             iChapter++;
             iChapterOffset = diff;
+            iSubchaptersNumber++;
         }
         else if (i> 0)
         {
             int hole = offsets.at(i)-undecoded[i-1].length()-offsets.at(i-1);
             if (hole > 4)
             {
-                    iChapter++;
-                    iChapterOffset = diff;
+                    iSubchaptersNumber++;
             }
         }
         chapter_offsets.append(diff);
         chapters.append(iChapter);
+        subchapters.append(iSubchaptersNumber);
     }
     iChaptersNumber = iChapter+1;
 
@@ -562,11 +545,21 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     _out_file.open(QIODevice::WriteOnly);
     for (i=0;i<chapters.size();i++)
     {
-        _out_file.write(QString("%1 : %2").arg(i).arg(chapters[i]).toLatin1());
+        _out_file.write(QString("%1 : %2 : %3 : %4 : %5").arg(i).arg(chapters[i]).arg(subchapters[i]).arg(offsets[i],0,16).arg(line_pointers.at(i),0,16).toLatin1());
         _out_file.write("\r\n");
     }
     _out_file.close();
 
+    _out_file.setFileName(QString("WORD_subchapters_pointers.TXT"));
+    _out_file.open(QIODevice::WriteOnly);
+    for (i=0;i<subchapter_pointers.size();i++)
+    {
+        _out_file.write(QString("%1 : %2 : %3").arg(i).arg(subchapter_pointers[i],0,16).arg(subchapter_pointers_pointers[i],0,16).toLatin1());
+        _out_file.write("\r\n");
+    }
+    _out_file.close();
+
+    return;
 
     //calculate chapter sizes
     chapter_sizes.clear();
@@ -673,7 +666,7 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     iChapter=0;
     for (i=0;i<decoded.length();i++)
     {
-        diff = offsets.at(i)-markers.at(i)+0x205000;
+        diff = offsets.at(i)-line_pointers.at(i)+0x205000;
         if (diff != iChapterOffset)
         {
             iChapter++;
@@ -709,15 +702,15 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
             iChapterNode++;
         int iDataPtr = offsets[iChapterNode];
         //now do insert for each line in chapter
-        while ( (chapters[iChapterNode] == ch) )// && (iChapterNode<37) )
+        while (chapters[iChapterNode] == ch)
         {
             _in_data.replace(iDataPtr,Englishes[iChapterNode].length(),Englishes[iChapterNode]);//update data
             int iOffset = iDataPtr + chapter_offsets[iChapterNode];
             char * p8 = (char*)&iOffset;
-            _in_data.replace(markers_pointers[iChapterNode],1,QByteArray(1,p8[3]));//update pointer
-            _in_data.replace(markers_pointers[iChapterNode]+1,1,QByteArray(1,p8[2]));//update pointer
-            _in_data.replace(markers_pointers[iChapterNode]+2,1,QByteArray(1,p8[1]));//update pointer
-            _in_data.replace(markers_pointers[iChapterNode]+3,1,QByteArray(1,p8[0]));//update pointer
+            _in_data.replace(line_pointers_pointers[iChapterNode],1,QByteArray(1,p8[3]));//update pointer
+            _in_data.replace(line_pointers_pointers[iChapterNode]+1,1,QByteArray(1,p8[2]));//update pointer
+            _in_data.replace(line_pointers_pointers[iChapterNode]+2,1,QByteArray(1,p8[1]));//update pointer
+            _in_data.replace(line_pointers_pointers[iChapterNode]+3,1,QByteArray(1,p8[0]));//update pointer
             iDataPtr += Englishes[iChapterNode].length();
             iChapterNode++;
         }
@@ -728,8 +721,8 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     _out_file.open(QIODevice::WriteOnly);
     for (i=0;i<decoded.length();i++)
     {
-        diff = offsets.at(i)-markers.at(i)+0x205000;
-        _out_file.write(QString("%1:%2:%3:%4:%5:").arg(i).arg(chapters[i]).arg(offsets.at(i),8,16).arg(markers.at(i),8,16).arg(diff,8,16).toUtf8());
+        diff = offsets.at(i)-line_pointers.at(i)+0x205000;
+        _out_file.write(QString("%1:%2:%3:%4:%5:").arg(i).arg(chapters[i]).arg(offsets.at(i),8,16).arg(line_pointers.at(i),8,16).arg(diff,8,16).toUtf8());
         _out_file.write(undecoded.at(i));
         _out_file.write("\r\n");
     }
