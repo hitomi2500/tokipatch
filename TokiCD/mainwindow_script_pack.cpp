@@ -392,12 +392,16 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     QList<QByteArray> undecoded;
     QList<int> line_pointers;
     QList<int> line_pointers_pointers;
+    QList<int> line_pointers_pointers_lwram;
     QList<int> offsets;
     QList<int> subchapter_pointers;
+    QList<int> subchapter_pointers_ids;
     QList<int> subchapter_pointers_pointers;
     QList<int> chapters;
     QList<int> subchapters;
     QList<int> chapter_sizes;
+    QList<int> chapter_starts;
+    QList<int> chapter_ends;
     QList<int> chapter_offsets;
     QList<int> chapter_english_sizes;
     int LinesInBlock;
@@ -422,7 +426,6 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     //for (i=0;i<1000;i++)
     LinesInBlock = 0;
     int iChapter = 0;
-    int iChapterOffset = 0;
     while (iPos < _in_data.size())
     {
         if (iPos > 0x2A3640)
@@ -479,13 +482,6 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
                 line_pointers.append((unsigned char)_in_data.at(iPos)*0x1000000 + (unsigned char)_in_data.at(iPos+1)*0x10000 + (unsigned char)_in_data.at(iPos+2)*0x100 + (unsigned char)_in_data.at(iPos+3));
                 line_pointers_pointers.append(iPos);
             }
-            else
-            {
-                //some pointer, but not line pointer
-                //maybe a subchapter pointer?
-                subchapter_pointers.append((unsigned char)_in_data.at(iPos)*0x1000000 + (unsigned char)_in_data.at(iPos+1)*0x10000 + (unsigned char)_in_data.at(iPos+2)*0x100 + (unsigned char)_in_data.at(iPos+3));
-                subchapter_pointers_pointers.append(iPos);
-            }
             iPos+=4;
         }
         else if ( (iPos == 0x75804)||(iPos == 0x8AC28)||(iPos == 0xAF8A0)||(iPos == 0xAFF44)||(iPos == 0xB0570))
@@ -515,14 +511,18 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
 
     //detect chapters by offset change and subchapters by hole between data
     iChapter = 0;
-    iChapterOffset = 0;
+    int iChapterOffset = 0;
     iChaptersNumber = 0;
     iSubchaptersNumber = 0;
+    chapter_starts.append(0);
     for (i=0;i<undecoded.length();i++)
     {
         int diff = offsets.at(i)-line_pointers.at(i)+0x205000;
+        line_pointers_pointers_lwram.append(line_pointers_pointers[i]-diff+0x205000);
         if (diff != iChapterOffset)
         {
+            chapter_ends.append(offsets.at(i)-1);
+            chapter_starts.append(offsets.at(i));
             iChapter++;
             iChapterOffset = diff;
             iSubchaptersNumber++;
@@ -540,12 +540,50 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
         subchapters.append(iSubchaptersNumber);
     }
     iChaptersNumber = iChapter+1;
+    chapter_ends.append(_in_data.size());
+
+    //now another pass to detect subchapter pointers
+    for (int ch=0; ch<iChaptersNumber; ch++)
+    {
+        iPos = chapter_starts[ch];
+        while (iPos < chapter_ends[ch])
+        {
+            if ( ((unsigned char)(_in_data.at(iPos)) == 0x00) && ((unsigned char)(_in_data.at(iPos+1)) >= 0x20) && ((unsigned char)(_in_data.at(iPos+1)) <= 0x28)  )
+            {
+                //some pointers, do we have them already in line pointers for current chapter?
+                int _ptr = ((unsigned char)_in_data.at(iPos)*0x1000000 + (unsigned char)_in_data.at(iPos+1)*0x10000 + (unsigned char)_in_data.at(iPos+2)*0x100 + (unsigned char)_in_data.at(iPos+3));
+                int test = line_pointers.indexOf(_ptr);
+                if ((test>0)&&(chapters[test] == ch))
+                {
+                    //it's a line pointer, skipping it
+                }
+                else if (line_pointers_pointers_lwram.contains(_ptr))
+                {
+                    //it's a subchapter pointer? is it ours?
+                    if (chapters[line_pointers_pointers_lwram.indexOf(_ptr)] == ch)
+                    {
+                        //yes
+                        subchapter_pointers.append(_ptr);
+                        subchapter_pointers_ids.append(line_pointers_pointers_lwram.indexOf(_ptr));
+                        subchapter_pointers_pointers.append(iPos);
+                    }
+                }
+                iPos+=4;
+            }
+            else
+            {
+                //something else in the stream, moving on
+                iPos+=4;
+            }
+
+        }
+    }
 
     _out_file.setFileName(QString("WORD_chapters.TXT"));
     _out_file.open(QIODevice::WriteOnly);
     for (i=0;i<chapters.size();i++)
     {
-        _out_file.write(QString("%1 : %2 : %3 : %4 : %5").arg(i).arg(chapters[i]).arg(subchapters[i]).arg(offsets[i],0,16).arg(line_pointers.at(i),0,16).toLatin1());
+        _out_file.write(QString("%1 : %2 : %3 : %4 : %5 : %6").arg(i).arg(chapters[i]).arg(subchapters[i]).arg(offsets[i],0,16).arg(line_pointers.at(i),0,16).arg(line_pointers_pointers_lwram.at(i),0,16).toLatin1());
         _out_file.write("\r\n");
     }
     _out_file.close();
@@ -554,12 +592,12 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     _out_file.open(QIODevice::WriteOnly);
     for (i=0;i<subchapter_pointers.size();i++)
     {
-        _out_file.write(QString("%1 : %2 : %3").arg(i).arg(subchapter_pointers[i],0,16).arg(subchapter_pointers_pointers[i],0,16).toLatin1());
+        _out_file.write(QString("%1 : %2 : %3 : %4").arg(i).arg(subchapter_pointers_ids[i]).arg(subchapter_pointers[i],0,16).arg(subchapter_pointers_pointers[i],0,16).toLatin1());
         _out_file.write("\r\n");
     }
     _out_file.close();
 
-    return;
+    //return;
 
     //calculate chapter sizes
     chapter_sizes.clear();
@@ -664,6 +702,7 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     int diff;
     int iFits=0;
     iChapter=0;
+    iChapterOffset = 0;
     for (i=0;i<decoded.length();i++)
     {
         diff = offsets.at(i)-line_pointers.at(i)+0x205000;
@@ -693,26 +732,76 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     ui->label_wordbin_insert_stats->setText(QString("Size fits : %1, chapters fit: %2 out of %3").arg(iFits).arg(iChapterFits).arg(iChaptersNumber));
 
     //inserting english lines, chapter 1 only for now
-    //for (int ch=0;ch<iChaptersNumber;ch++)
-    for (int ch=0;ch<1;ch++)
+    QList<int>current_subchapter_line_offsets;
+    int iSubchapter=0;
+    for (int ch=0;ch<iChaptersNumber;ch++)
+    //for (int ch=0;ch<1;ch++)
     {
         //get the chapter offset in sjis
         int iChapterNode = 0;
         while (chapters[iChapterNode]!=ch)
             iChapterNode++;
         int iDataPtr = offsets[iChapterNode];
+        //int iSubchapterStart = iChapterNode;
+        current_subchapter_line_offsets.clear();
+        int iFirstSubchapter = subchapter_pointers_pointers[iSubchapter];
         //now do insert for each line in chapter
         while (chapters[iChapterNode] == ch)
         {
+            current_subchapter_line_offsets.append(iDataPtr);
             _in_data.replace(iDataPtr,Englishes[iChapterNode].length(),Englishes[iChapterNode]);//update data
+            iDataPtr += Englishes[iChapterNode].length();
+            //if next data is subchapter or end of (sub)chapter, closing the subchapter, dumping the pointers
+            if ( (iChapterNode == (chapters.size()-1)) || (chapters[iChapterNode+1]!=ch) || (subchapter_pointers_ids.contains(iChapterNode+1)) )
+            {
+                //move pointer to 4-byte aligned value
+                while (iDataPtr%4)
+                {
+                    _in_data[iDataPtr]=0;
+                    iDataPtr++;
+                }
+                //replace subchapter pointer
+                int iOffset = iDataPtr + chapter_offsets[iChapterNode] + 0x205000;
+                char * p8 = (char*)&iOffset;
+                _in_data.replace(subchapter_pointers_pointers[iSubchapter],1,QByteArray(1,p8[3]));//update subchapter pointer
+                _in_data.replace(subchapter_pointers_pointers[iSubchapter]+1,1,QByteArray(1,p8[2]));//update subchapter pointer
+                _in_data.replace(subchapter_pointers_pointers[iSubchapter]+2,1,QByteArray(1,p8[1]));//update subchapter pointer
+                _in_data.replace(subchapter_pointers_pointers[iSubchapter]+3,1,QByteArray(1,p8[0]));//update subchapter pointer
+                //dump pointers
+                for (int l=0;l<current_subchapter_line_offsets.size();l++)
+                {
+                    int iOffset = current_subchapter_line_offsets[l] + 0x205000;
+                    char * p8 = (char*)&iOffset;
+                    _in_data.replace(iDataPtr,1,QByteArray(1,p8[3]));//update pointer
+                    _in_data.replace(iDataPtr+1,1,QByteArray(1,p8[2]));//update pointer
+                    _in_data.replace(iDataPtr+2,1,QByteArray(1,p8[1]));//update pointer
+                    _in_data.replace(iDataPtr+3,1,QByteArray(1,p8[0]));//update pointer
+                    iDataPtr+=4;
+                    current_subchapter_line_offsets.clear();
+                }
+                iSubchapter++;
+            }
+            iChapterNode++;
+            /*_in_data.replace(iDataPtr,Englishes[iChapterNode].length(),Englishes[iChapterNode]);//update data
             int iOffset = iDataPtr + chapter_offsets[iChapterNode];
             char * p8 = (char*)&iOffset;
             _in_data.replace(line_pointers_pointers[iChapterNode],1,QByteArray(1,p8[3]));//update pointer
             _in_data.replace(line_pointers_pointers[iChapterNode]+1,1,QByteArray(1,p8[2]));//update pointer
             _in_data.replace(line_pointers_pointers[iChapterNode]+2,1,QByteArray(1,p8[1]));//update pointer
             _in_data.replace(line_pointers_pointers[iChapterNode]+3,1,QByteArray(1,p8[0]));//update pointer
+            if (subchapter_pointers_ids.contains(iChapterNode))
+            {
+                //this node was indexed by subchapter
+#error here
+            }
             iDataPtr += Englishes[iChapterNode].length();
-            iChapterNode++;
+            iChapterNode++;*/
+        }
+        //fill chapter remaining with zeros just for reference
+        while (iDataPtr < iFirstSubchapter)
+        {
+            _in_data[iDataPtr]=0;
+            iDataPtr++;
         }
     }
 
