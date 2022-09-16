@@ -525,13 +525,15 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
             chapter_starts.append(offsets.at(i));
             iChapter++;
             iChapterOffset = diff;
-            iSubchaptersNumber++;
+            if (iChapter != 52) //52th is broken, keep it in subchapter 7357
+                iSubchaptersNumber++;
         }
         else if (i> 0)
         {
             int hole = offsets.at(i)-undecoded[i-1].length()-offsets.at(i-1);
             if (hole > 4)
             {
+               if (chapter_starts.size() != 53) //52th is broken
                     iSubchaptersNumber++;
             }
         }
@@ -545,6 +547,10 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     //now another pass to detect subchapter pointers
     for (int ch=0; ch<iChaptersNumber; ch++)
     {
+        /*if (ch == 52)
+        {
+            volatile int dummy5=0;
+        }*/
         iPos = chapter_starts[ch];
         while (iPos < chapter_ends[ch])
         {
@@ -553,19 +559,40 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
                 //some pointers, do we have them already in line pointers for current chapter?
                 int _ptr = ((unsigned char)_in_data.at(iPos)*0x1000000 + (unsigned char)_in_data.at(iPos+1)*0x10000 + (unsigned char)_in_data.at(iPos+2)*0x100 + (unsigned char)_in_data.at(iPos+3));
                 int test = line_pointers.indexOf(_ptr);
-                if ((test>0)&&(chapters[test] == ch))
+                while ( (test >=0) && (chapters[test] != ch) )
+                    test = line_pointers.indexOf(_ptr,test+1);
+                if ((test>=0)&&(chapters[test] == ch))
                 {
                     //it's a line pointer, skipping it
                 }
                 else if (line_pointers_pointers_lwram.contains(_ptr))
                 {
                     //it's a subchapter pointer? is it ours?
-                    if (chapters[line_pointers_pointers_lwram.indexOf(_ptr)] == ch)
+                    //search all chapters with matches for _prt in line_pointers_pointers_lwram
+                    int test2 = line_pointers_pointers_lwram.indexOf(_ptr);
+                    while ( (test2 >=0) && (chapters[test2] != ch) )
+                        test2 = line_pointers_pointers_lwram.indexOf(_ptr,test2+1);
+                    /*QList<int> searches;
+                    QList<int> searches_ind;
+                    for (int s=0;s<line_pointers_pointers_lwram.size();s++)
+                        if (line_pointers_pointers_lwram[s] == _ptr)
+                        {
+                            searches.append(chapters[s]);
+                            searches_ind.append(s);
+                        }*/
+                    if ((test2>=0)&&(chapters[test2] == ch))
+                    //if (searches.contains(ch))
                     {
                         //yes
                         subchapter_pointers.append(_ptr);
-                        subchapter_pointers_ids.append(line_pointers_pointers_lwram.indexOf(_ptr));
+                        //subchapter_pointers_ids.append(searches_ind[searches.indexOf(ch)]);
+                        subchapter_pointers_ids.append(test2);
                         subchapter_pointers_pointers.append(iPos);
+                    }
+                    else
+                    {
+                        //something wrong?
+                        //volatile int dummy5=0;
                     }
                 }
                 iPos+=4;
@@ -735,8 +762,11 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     QList<int>current_subchapter_line_offsets;
     int iSubchapter=0;
     for (int ch=0;ch<iChaptersNumber;ch++)
+    //for (int ch=0;ch<(iChaptersNumber-30);ch++)
     //for (int ch=0;ch<1;ch++)
     {
+        if (ch == 52)
+            continue; //52th is broken
         //get the chapter offset in sjis
         int iChapterNode = 0;
         while (chapters[iChapterNode]!=ch)
@@ -746,7 +776,7 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
         current_subchapter_line_offsets.clear();
         int iFirstSubchapter = subchapter_pointers_pointers[iSubchapter];
         //now do insert for each line in chapter
-        while (chapters[iChapterNode] == ch)
+        while ( (iChapterNode < chapters.size()) && (chapters[iChapterNode] == ch) )
         {
             current_subchapter_line_offsets.append(iDataPtr);
             _in_data.replace(iDataPtr,Englishes[iChapterNode].length(),Englishes[iChapterNode]);//update data
@@ -776,12 +806,16 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
                     _in_data.replace(iDataPtr+1,1,QByteArray(1,p8[2]));//update pointer
                     _in_data.replace(iDataPtr+2,1,QByteArray(1,p8[1]));//update pointer
                     _in_data.replace(iDataPtr+3,1,QByteArray(1,p8[0]));//update pointer
-                    iDataPtr+=4;
-                    current_subchapter_line_offsets.clear();
+                    iDataPtr+=4;   
                 }
+                current_subchapter_line_offsets.clear();
                 iSubchapter++;
             }
             iChapterNode++;
+            if (iChapterNode == 580)
+            {
+                volatile int dummy5=0;
+            }
             /*_in_data.replace(iDataPtr,Englishes[iChapterNode].length(),Englishes[iChapterNode]);//update data
             int iOffset = iDataPtr + chapter_offsets[iChapterNode];
             char * p8 = (char*)&iOffset;
