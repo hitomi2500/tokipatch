@@ -515,9 +515,11 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     iChaptersNumber = 0;
     iSubchaptersNumber = 0;
     chapter_starts.append(0);
+    QList<int> holes_list;
     for (i=0;i<undecoded.length();i++)
     {
         int diff = offsets.at(i)-line_pointers.at(i)+0x205000;
+        int hole = -1;
         line_pointers_pointers_lwram.append(line_pointers_pointers[i]-diff+0x205000);
         if (diff != iChapterOffset)
         {
@@ -525,21 +527,33 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
             chapter_starts.append(offsets.at(i));
             iChapter++;
             iChapterOffset = diff;
-            if (iChapter != 52) //52th is broken, keep it in subchapter 7357
+            if (iChapter != 522) //522th is broken, keep it in subchapter 7537
                 iSubchaptersNumber++;
         }
         else if (i> 0)
         {
-            int hole = offsets.at(i)-undecoded[i-1].length()-offsets.at(i-1);
-            if (hole > 4)
+            hole = offsets.at(i)-undecoded[i-1].length()-offsets.at(i-1);
+            if (hole > 180) // 200 to big to be in-chapter hole, making new chapter here
             {
-               if (chapter_starts.size() != 53) //52th is broken
+                if (iChapter != 522) //522th is broken, keep it in subchapter 7357 and don't update by hole
+                {
+                    chapter_ends.append(offsets.at(i)-1);
+                    chapter_starts.append(offsets.at(i));
+                    iChapter++;
+                    iChapterOffset = diff;
+                    iSubchaptersNumber++;
+                }
+            }
+            else if (hole > 4)
+            {
+               if (chapter_starts.size() != 523) //522th is broken
                     iSubchaptersNumber++;
             }
         }
         chapter_offsets.append(diff);
         chapters.append(iChapter);
         subchapters.append(iSubchaptersNumber);
+        holes_list.append(hole);
     }
     iChaptersNumber = iChapter+1;
     chapter_ends.append(_in_data.size());
@@ -547,10 +561,6 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     //now another pass to detect subchapter pointers
     for (int ch=0; ch<iChaptersNumber; ch++)
     {
-        /*if (ch == 52)
-        {
-            volatile int dummy5=0;
-        }*/
         iPos = chapter_starts[ch];
         while (iPos < chapter_ends[ch])
         {
@@ -602,15 +612,28 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
                 //something else in the stream, moving on
                 iPos+=4;
             }
-
         }
     }
+
+    //verifying that subchapter pointers form a consecutive list for each chapter
+    /*for (int subch = 1; subch<subchapter_pointers.size(); subch++)
+    {
+        if (chapters[subchapter_pointers_ids[subch-1]] == chapters[subchapter_pointers_ids[subch]])
+        {
+            if (subchapter_pointers_pointers[subch] - subchapter_pointers_pointers[subch-1] != 4)
+            {
+                volatile int error = 300;
+            }
+        }
+    }*/
+
+
 
     _out_file.setFileName(QString("WORD_chapters.TXT"));
     _out_file.open(QIODevice::WriteOnly);
     for (i=0;i<chapters.size();i++)
     {
-        _out_file.write(QString("%1 : %2 : %3 : %4 : %5 : %6").arg(i).arg(chapters[i]).arg(subchapters[i]).arg(offsets[i],0,16).arg(line_pointers.at(i),0,16).arg(line_pointers_pointers_lwram.at(i),0,16).toLatin1());
+        _out_file.write(QString("%1 : ch=%2 : subch=%3 : offset=%4 : lptr=%5 : lptr_lwram=%6 : hole=%7").arg(i).arg(chapters[i]).arg(subchapters[i]).arg(offsets[i],0,16).arg(line_pointers.at(i),0,16).arg(line_pointers_pointers_lwram.at(i),0,16).arg(holes_list[i]).toLatin1());
         _out_file.write("\r\n");
     }
     _out_file.close();
@@ -619,7 +642,7 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     _out_file.open(QIODevice::WriteOnly);
     for (i=0;i<subchapter_pointers.size();i++)
     {
-        _out_file.write(QString("%1 : %2 : %3 : %4").arg(i).arg(subchapter_pointers_ids[i]).arg(subchapter_pointers[i],0,16).arg(subchapter_pointers_pointers[i],0,16).toLatin1());
+        _out_file.write(QString("%1 : line=%2 : subch=%3 : subch_ptr=%4").arg(i).arg(subchapter_pointers_ids[i]).arg(subchapter_pointers[i],0,16).arg(subchapter_pointers_pointers[i],0,16).toLatin1());
         _out_file.write("\r\n");
     }
     _out_file.close();
@@ -726,6 +749,29 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
         Englishes[i].replace("\r\n",QByteArray(1,0));
     }
 
+    //replace spaces in english lines with 02
+    for (int i=0; i< Englishes.size(); i++)
+    {
+        Englishes[i].replace(' ',QByteArray(1,2));
+    }
+
+    //replace 02 in english lines back with spaces, but only if > 30 chars from prev space
+    int iPrevSpace,iCurrSpace;
+    for (int i=0; i< Englishes.size(); i++)
+    {
+        iPrevSpace = 0;
+        iCurrSpace = Englishes[i].indexOf(QByteArray(1,2));
+        while (iCurrSpace > 0)
+        {
+            if (iCurrSpace-iPrevSpace > 30)
+            {
+                Englishes[i][iCurrSpace] = ' ';
+                iPrevSpace = iCurrSpace;
+            }
+            iCurrSpace = Englishes[i].indexOf(QByteArray(1,2),iCurrSpace+1);
+        }
+    }
+
     int diff;
     int iFits=0;
     iChapter=0;
@@ -764,9 +810,10 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     for (int ch=0;ch<iChaptersNumber;ch++)
     //for (int ch=0;ch<(iChaptersNumber-30);ch++)
     //for (int ch=0;ch<1;ch++)
+    //for (int ch=42;ch<43;ch++)
     {
-        if (ch == 52)
-            continue; //52th is broken
+        if (ch == 522)
+            continue; //522th is broken
         //get the chapter offset in sjis
         int iChapterNode = 0;
         while (chapters[iChapterNode]!=ch)
@@ -800,7 +847,7 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
                 //dump pointers
                 for (int l=0;l<current_subchapter_line_offsets.size();l++)
                 {
-                    int iOffset = current_subchapter_line_offsets[l] + 0x205000;
+                    int iOffset = current_subchapter_line_offsets[l] - chapter_offsets[iChapterNode] + 0x205000;
                     char * p8 = (char*)&iOffset;
                     _in_data.replace(iDataPtr,1,QByteArray(1,p8[3]));//update pointer
                     _in_data.replace(iDataPtr+1,1,QByteArray(1,p8[2]));//update pointer
@@ -832,6 +879,12 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
             iChapterNode++;*/
         }
         //fill chapter remaining with zeros just for reference
+        if (iDataPtr > iFirstSubchapter)
+        {
+            //error
+            volatile int error = 500;
+
+        }
         while (iDataPtr < iFirstSubchapter)
         {
             _in_data[iDataPtr]=0;
