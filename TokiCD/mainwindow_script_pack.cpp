@@ -628,12 +628,14 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     }*/
 
 
+    QList<int>chapter_offsets2;
 
     _out_file.setFileName(QString("WORD_chapters.TXT"));
     _out_file.open(QIODevice::WriteOnly);
     for (i=0;i<chapters.size();i++)
     {
-        _out_file.write(QString("%1 : ch=%2 : subch=%3 : offset=%4 : lptr=%5 : lptr_lwram=%6 : hole=%7").arg(i).arg(chapters[i]).arg(subchapters[i]).arg(offsets[i],0,16).arg(line_pointers.at(i),0,16).arg(line_pointers_pointers_lwram.at(i),0,16).arg(holes_list[i]).toLatin1());
+        chapter_offsets2.append(line_pointers[i] - offsets[i]);
+        _out_file.write(QString("%1 : ch=%2 : subch=%3 : ch_off=%4 : offset=%5 : lptr=%6 : lptr_lwram=%7 : hole=%8").arg(i).arg(chapters[i]).arg(subchapters[i]).arg(chapter_offsets2[i],0,16).arg(offsets[i],0,16).arg(line_pointers.at(i),0,16).arg(line_pointers_pointers_lwram.at(i),0,16).arg(holes_list[i]).toLatin1());
         _out_file.write("\r\n");
     }
     _out_file.close();
@@ -734,15 +736,6 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
     tokens2.append("te");
     tokens2.append("st");
 
-    //token-comress translated file
-    for (int i=0; i< Englishes.size(); i++)
-    {
-        for (int j=0;j<16;j++)
-            Englishes[i].replace(tokens3[j],QByteArray(1,16+j));
-        for (int j=0;j<32;j++)
-            Englishes[i].replace(tokens2[j],QByteArray(1,224+j));
-    }
-
     //replace endings in english lines with zeros
     for (int i=0; i< Englishes.size(); i++)
     {
@@ -770,6 +763,15 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
             }
             iCurrSpace = Englishes[i].indexOf(QByteArray(1,2),iCurrSpace+1);
         }
+    }
+
+    //token-comress translated file
+    for (int i=0; i< Englishes.size(); i++)
+    {
+        for (int j=0;j<16;j++)
+            Englishes[i].replace(tokens3[j],QByteArray(1,16+j));
+        for (int j=0;j<32;j++)
+            Englishes[i].replace(tokens2[j],QByteArray(1,224+j));
     }
 
     int diff;
@@ -838,8 +840,10 @@ void MainWindow::on_pushButton_script_word_bin_update_clicked()
                     iDataPtr++;
                 }
                 //replace subchapter pointer
-                int iOffset = iDataPtr + chapter_offsets[iChapterNode] + 0x205000;
+                int iOffset = iDataPtr + chapter_offsets2[iChapterNode];
                 char * p8 = (char*)&iOffset;
+                if (subchapter_pointers_pointers[iSubchapter] == 0x151A00)
+                    volatile int error = 400;
                 _in_data.replace(subchapter_pointers_pointers[iSubchapter],1,QByteArray(1,p8[3]));//update subchapter pointer
                 _in_data.replace(subchapter_pointers_pointers[iSubchapter]+1,1,QByteArray(1,p8[2]));//update subchapter pointer
                 _in_data.replace(subchapter_pointers_pointers[iSubchapter]+2,1,QByteArray(1,p8[1]));//update subchapter pointer
